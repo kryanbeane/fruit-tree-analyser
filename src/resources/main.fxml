@@ -1,27 +1,158 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
+<?import java.net.URL?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="sample.Controller">
-    <BorderPane prefHeight="400.0" prefWidth="600.0">
-        <top>
-            <MenuBar BorderPane.alignment="CENTER">
-                <Menu mnemonicParsing="false" text="File">
-                    <MenuItem mnemonicParsing="false" onAction="#openImage" text="Open Image"/>
-                    <MenuItem mnemonicParsing="false" text="Close"/>
-                </Menu>
-            </MenuBar>
-        </top>
-        <center>
-            <ImageView fx:id="fxMainImageView" fitHeight="200.0" fitWidth="250.0" pickOnBounds="true"
-                       preserveRatio="true" BorderPane.alignment="CENTER"/>
-        </center>
-    </BorderPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" style="-fx-background-color: #e5dfe8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <VBox maxHeight="650.0" maxWidth="275.0" minHeight="650.0" minWidth="275.0" prefHeight="650.0" prefWidth="275.0" style="-fx-background-color: #6D597A;">
+        <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+                <children>
+                    <ImageView fitHeight="209.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                        <HBox.margin>
+                            <Insets />
+                        </HBox.margin>
+                  <image>
+                     <Image url="@grapes.png" />
+                  </image>
+                    </ImageView>
+                    <VBox prefHeight="149.0" prefWidth="137.0">
+                        <children>
+                            <Label prefHeight="31.0" prefWidth="126.0" text="Fruit Tree" textFill="WHITE">
+                                <font>
+                                    <Font name="Calibri Bold" size="23.0" />
+                                </font>
+                                <VBox.margin>
+                                    <Insets top="44.0" />
+                                </VBox.margin>
+                            </Label>
+                            <Label text="Analyser" textFill="WHITE">
+                                <font>
+                                    <Font name="Calibri Bold" size="23.0" />
+                                </font>
+                            </Label>
+                        </children>
+                    </VBox>
+                </children>
+                <VBox.margin>
+                    <Insets bottom="8.0" right="8.0" top="8.0" />
+                </VBox.margin>
+            </HBox>
+         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="294.0" style="-fx-background-color: #6D597A;" textFill="WHITE">
+            <font>
+               <Font name="Calibri Bold" size="16.0" />
+            </font>
+            <VBox.margin>
+               <Insets left="8.0" right="8.0" top="8.0" />
+            </VBox.margin>
+            <graphic>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                     <ImageView fitHeight="30.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@homeicon.png" />
+                        </image>
+                        <HBox.margin>
+                           <Insets bottom="8.0" left="24.0" top="8.0" />
+                        </HBox.margin></ImageView>
+                     <Label prefHeight="56.0" prefWidth="253.0" text="HOME" textFill="WHITE">
+                        <font>
+                           <Font name="Calibri Bold" size="16.0" />
+                        </font>
+                        <HBox.margin>
+                           <Insets left="16.0" />
+                        </HBox.margin>
+                     </Label>
+                  </children>
+               </HBox>
+            </graphic>
+            <stylesheets>
+               <URL value="@../stylesheet.css" />
+               <URL value="@../stylesheet2.css" />
+            </stylesheets>
+         </Button>
+         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="292.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
+            <font>
+               <Font name="Calibri Bold" size="16.0" />
+            </font>
+            <VBox.margin>
+               <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
+            </VBox.margin>
+            <graphic>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                     <ImageView fitHeight="38.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true" />
+                     <Label prefHeight="56.0" prefWidth="253.0" stylesheets="@../stylesheet.css" text="GREYSCALE" textFill="WHITE">
+                        <font>
+                           <Font name="Calibri Bold" size="16.0" />
+                        </font>
+                        <HBox.margin>
+                           <Insets left="16.0" right="8.0" />
+                        </HBox.margin>
+                     </Label>
+                  </children>
+               </HBox>
+            </graphic>
+         </Button>
+         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="314.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
+            <font>
+               <Font name="Calibri Bold" size="16.0" />
+            </font>
+            <VBox.margin>
+               <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
+            </VBox.margin>
+            <graphic>
+               <HBox prefHeight="38.0" prefWidth="280.0">
+                  <children>
+                     <ImageView fitHeight="38.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true" />
+                     <Label prefHeight="56.0" prefWidth="253.0" stylesheets="@../stylesheet.css" text="FRUIT RECOGNITION" textFill="WHITE">
+                        <font>
+                           <Font name="Calibri Bold" size="16.0" />
+                        </font>
+                        <HBox.margin>
+                           <Insets left="16.0" />
+                        </HBox.margin>
+                     </Label>
+                  </children>
+               </HBox>
+            </graphic>
+         </Button>
+         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="325.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
+            <font>
+               <Font name="Calibri Bold" size="16.0" />
+            </font>
+            <VBox.margin>
+               <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
+            </VBox.margin>
+            <graphic>
+               <HBox prefHeight="100.0" prefWidth="200.0">
+                  <children>
+                     <ImageView fitHeight="38.0" fitWidth="51.0" pickOnBounds="true" preserveRatio="true" />
+                     <Label prefHeight="56.0" prefWidth="253.0" stylesheets="@../stylesheet.css" text="HOME" textFill="WHITE">
+                        <font>
+                           <Font name="Calibri Bold" size="16.0" />
+                        </font>
+                        <HBox.margin>
+                           <Insets left="16.0" />
+                        </HBox.margin>
+                     </Label>
+                  </children>
+               </HBox>
+            </graphic>
+         </Button>
+        </children>
+    </VBox>
+    <Button fx:id="exitButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" maxHeight="27.0" maxWidth="24.0" minHeight="21.0" minWidth="24.0" mnemonicParsing="false" onAction="#exit" prefHeight="21.0" prefWidth="24.0" style="-fx-background-color: #e5dfe8;" stylesheets="@../stylesheet.css" text="X" AnchorPane.bottomAnchor="621.0" AnchorPane.leftAnchor="818.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+        <font>
+            <Font name="System Bold" size="10.0" />
+        </font>
+    </Button>
 </AnchorPane>

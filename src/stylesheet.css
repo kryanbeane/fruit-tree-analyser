@@ -2,7 +2,7 @@
     -fx-background-color: #e5dfe8;
 }
 
-.button:pressed{
+.button:pressed {
     -fx-effect: dropshadow(two-pass-box , darkgray, 10, 0.0 , 4, 5);
 }
 

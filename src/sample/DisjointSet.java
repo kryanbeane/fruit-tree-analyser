@@ -2,20 +2,23 @@ package sample;
 
 public class DisjointSet<N> {
 
-    private int setSize;
 
-    public void addNode(DsNode<N> n) {
-        if (this.isEmpty()) {
-            n.parent = n;
-            setSize++;
-        } else {
-            setSize++;
-        }
+    public DisjointSet(int setSize) {
+        this.setSize = setSize;
+    }
+
+    int setSize;
+
+    public void union() {
+        
+    }
+
+    public void find() {
+
     }
 
     public boolean isEmpty() {
         return setSize == 0;
     }
-
 
 }

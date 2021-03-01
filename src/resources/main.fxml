@@ -48,40 +48,37 @@
                     <Insets bottom="8.0" right="8.0" top="8.0" />
                 </VBox.margin>
             </HBox>
-         <Button fx:id="homeButt" mnemonicParsing="false" onAction="#homeButton" prefHeight="50.0" prefWidth="294.0" style="-fx-background-color: #6D597A;" textFill="WHITE">
+         <Button mnemonicParsing="false" onAction="#displayImage" prefHeight="50.0" prefWidth="292.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
             <font>
                <Font name="Calibri Bold" size="16.0" />
             </font>
-            <VBox.margin>
-               <Insets left="8.0" right="8.0" top="8.0" />
-            </VBox.margin>
             <graphic>
-               <HBox prefHeight="100.0" prefWidth="200.0" stylesheets="@../stylesheet.css">
+               <HBox prefHeight="100.0" prefWidth="200.0">
                   <children>
-                     <ImageView fitHeight="24.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@homeicon.png" />
-                        </image>
+                     <ImageView fitHeight="23.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
                         <HBox.margin>
                            <Insets bottom="8.0" left="24.0" top="8.0" />
-                        </HBox.margin></ImageView>
-                     <Label prefHeight="56.0" prefWidth="253.0" text="HOME" textFill="WHITE">
+                        </HBox.margin>
+                        <image>
+                           <Image url="@fileicon.png" />
+                        </image>
+                     </ImageView>
+                     <Label prefHeight="56.0" prefWidth="253.0" stylesheets="@../stylesheet.css" text="CHOOSE IMAGE" textFill="WHITE">
                         <font>
                            <Font name="Calibri Bold" size="16.0" />
                         </font>
                         <HBox.margin>
-                           <Insets left="16.0" />
+                           <Insets left="16.0" right="8.0" />
                         </HBox.margin>
                      </Label>
                   </children>
                </HBox>
             </graphic>
-            <stylesheets>
-               <URL value="@../stylesheet.css" />
-               <URL value="@../stylesheet2.css" />
-            </stylesheets>
+            <VBox.margin>
+               <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
+            </VBox.margin>
          </Button>
-         <Button mnemonicParsing="false" onAction="#greyscaleButton" prefHeight="50.0" prefWidth="292.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
+         <Button mnemonicParsing="false" onAction="#displayGreyImage" prefHeight="50.0" prefWidth="292.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
             <font>
                <Font name="Calibri Bold" size="16.0" />
             </font>
@@ -110,7 +107,7 @@
                </HBox>
             </graphic>
          </Button>
-         <Button mnemonicParsing="false" onAction="#fruitRecogButton" prefHeight="50.0" prefWidth="314.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
+         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="314.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
             <font>
                <Font name="Calibri Bold" size="16.0" />
             </font>
@@ -139,24 +136,25 @@
                </HBox>
             </graphic>
          </Button>
-         <Button mnemonicParsing="false" onAction="#settingsButton" prefHeight="50.0" prefWidth="325.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
+         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="294.0" style="-fx-background-color: #6D597A;" textFill="WHITE">
             <font>
                <Font name="Calibri Bold" size="16.0" />
             </font>
             <VBox.margin>
-               <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
+               <Insets left="8.0" right="8.0" top="8.0" />
             </VBox.margin>
             <graphic>
-               <HBox prefHeight="100.0" prefWidth="200.0">
+               <HBox prefHeight="100.0" prefWidth="200.0" stylesheets="@../stylesheet.css">
                   <children>
-                     <ImageView fitHeight="21.0" fitWidth="88.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fitHeight="24.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                           <Image url="@settingsicon.png" />
+                           <Image url="@reseticon.png" />
                         </image>
                         <HBox.margin>
                            <Insets bottom="8.0" left="24.0" top="8.0" />
-                        </HBox.margin></ImageView>
-                     <Label prefHeight="56.0" prefWidth="253.0" stylesheets="@../stylesheet.css" text="SETTINGS" textFill="WHITE">
+                        </HBox.margin>
+                     </ImageView>
+                     <Label prefHeight="56.0" prefWidth="253.0" text="RESET" textFill="WHITE">
                         <font>
                            <Font name="Calibri Bold" size="16.0" />
                         </font>
@@ -167,73 +165,67 @@
                   </children>
                </HBox>
             </graphic>
+            <stylesheets>
+               <URL value="@../stylesheet.css" />
+               <URL value="@../stylesheet2.css" />
+            </stylesheets>
          </Button>
         </children>
     </VBox>
-    <Button fx:id="exitButton" alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" maxHeight="27.0" maxWidth="24.0" minHeight="21.0" minWidth="24.0" mnemonicParsing="false" onAction="#exit" prefHeight="21.0" prefWidth="24.0" style="-fx-background-color: #e5dfe8;" stylesheets="@../stylesheet.css" text="X" textFill="#8b52d9" AnchorPane.bottomAnchor="621.0" AnchorPane.leftAnchor="818.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+    <Button alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" maxHeight="27.0" maxWidth="24.0" minHeight="21.0" minWidth="24.0" mnemonicParsing="false" onAction="#exit" prefHeight="21.0" prefWidth="24.0" style="-fx-background-color: #e5dfe8;" stylesheets="@../stylesheet.css" text="X" textFill="#8b52d9" AnchorPane.bottomAnchor="621.0" AnchorPane.leftAnchor="818.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
         <font>
             <Font name="System Bold" size="10.0" />
         </font>
     </Button>
-   <BorderPane fx:id="settingsTab" layoutX="275.0" layoutY="28.0" prefHeight="623.0" prefWidth="574.0" style="-fx-background-color: #e5dfe8;" />
-   <BorderPane fx:id="fruitRecogTab" layoutX="275.0" layoutY="27.0" prefHeight="623.0" prefWidth="574.0" style="-fx-background-color: #e5dfe8;" />
-   <BorderPane fx:id="homeTab" layoutX="275.0" layoutY="29.0" prefHeight="623.0" prefWidth="575.0" style="-fx-background-color: #e5dfe8;">
-      <top>
-         <Button mnemonicParsing="false" onAction="#openImage" prefHeight="25.0" prefWidth="95.0" text="Open Image" BorderPane.alignment="TOP_LEFT" />
-      </top>
-      <right>
-         <ImageView fx:id="originalImageView" fitHeight="250.0" fitWidth="250.0" onMouseClicked="#getColourAtMouseR" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-            <BorderPane.margin>
-               <Insets right="24.0" />
-            </BorderPane.margin>
-         </ImageView>
-      </right>
-   </BorderPane>
-   <BorderPane fx:id="greyscaleTab" layoutX="275.0" layoutY="29.0" prefHeight="623.0" prefWidth="574.0" style="-fx-background-color: #e5dfe8;">
-      <right>
-         <ImageView fx:id="greyScaleImageView" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-            <BorderPane.margin>
-               <Insets right="24.0" />
-            </BorderPane.margin>
-         </ImageView>
-      </right>
+   <BorderPane layoutX="275.0" layoutY="29.0" prefHeight="623.0" prefWidth="574.0" style="-fx-background-color: #e5dfe8;">
       <bottom>
          <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-               <Label text="Hue">
+               <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="286.0" text="Hue">
                   <VBox.margin>
-                     <Insets left="256.0" />
+                     <Insets left="312.0" right="32.0" />
                   </VBox.margin>
                </Label>
-               <Slider fx:id="hueSlider" blockIncrement="1.0" max="360.0">
+               <Slider fx:id="hueSlider" blockIncrement="5.0" min="-100.0">
                   <VBox.margin>
-                     <Insets left="256.0" right="16.0" />
+                     <Insets left="308.0" right="32.0" />
                   </VBox.margin>
                </Slider>
-               <Label text="Saturation">
+               <Label alignment="CENTER" prefHeight="17.0" prefWidth="295.0" text="Saturation">
                   <VBox.margin>
-                     <Insets left="256.0" top="8.0" />
+                     <Insets left="312.0" right="32.0" top="8.0" />
                   </VBox.margin>
                </Label>
-               <Slider fx:id="saturationSlider" blockIncrement="1.0">
+               <Slider fx:id="saturationSlider" blockIncrement="5.0" min="-100.0">
                   <VBox.margin>
-                     <Insets left="256.0" right="16.0" />
+                     <Insets left="308.0" right="32.0" />
                   </VBox.margin>
                </Slider>
-               <Label text="Brightness">
+               <Label alignment="CENTER" prefHeight="17.0" prefWidth="285.0" text="Brightness">
                   <VBox.margin>
-                     <Insets left="256.0" right="16.0" top="8.0" />
+                     <Insets left="312.0" right="32.0" top="8.0" />
                   </VBox.margin>
                </Label>
-               <Slider fx:id="brightnessSlider" blockIncrement="1.0">
+               <Slider fx:id="brightnessSlider" blockIncrement="5.0" min="-100.0">
                   <VBox.margin>
-                     <Insets left="256.0" right="16.0" />
+                     <Insets left="308.0" right="32.0" />
                   </VBox.margin>
                </Slider>
             </children>
          </VBox>
       </bottom>
       <left>
-         <Button mnemonicParsing="false" onAction="#setGreyscale" text="greyscale" BorderPane.alignment="CENTER" />
-      </left></BorderPane>
+         <ImageView fx:id="chosenImageView" fitHeight="250.0" fitWidth="250.0" onMouseClicked="#getColourAtMouseR" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+               <Insets left="24.0" />
+            </BorderPane.margin>
+         </ImageView>
+      </left>
+      <right>
+         <ImageView fx:id="greyImageView" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+               <Insets right="24.0" />
+            </BorderPane.margin>
+         </ImageView>
+      </right></BorderPane>
 </AnchorPane>

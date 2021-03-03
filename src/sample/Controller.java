@@ -17,25 +17,27 @@ public class Controller {
     @FXML ImageView chosenImageView, greyImageView;
     @FXML Slider hueSlider, saturationSlider, brightnessSlider;
     Image image, greyImage; PixelReader pixelReader, greyPixelReader; PixelWriter pixelWriter, greyPixelWriter; WritableImage writableImage, greyWritableImage;
-    double selectedSaturation, selectedBrightness;
+    double selectedHue, selectedSaturation, selectedBrightness;
+    double hueDifference, saturationDifference, brightnessDifference;
 
-    public Image fileChooser() {
+    public void fileChooser() {
         try {
             FileChooser fc = new FileChooser();
             fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG Files", "*.png"), new FileChooser.ExtensionFilter("JPEG Files", "*.jpg"));
             File file = fc.showOpenDialog(null);
-            return image = new Image(new FileInputStream(file), chosenImageView.getFitWidth(), chosenImageView.getFitHeight(), false, true);
+            image = new Image(new FileInputStream(file), chosenImageView.getFitWidth(), chosenImageView.getFitHeight(), false, true);
+            saturationDifference=0.4; brightnessDifference=0.3; hueDifference=360;
+            displayImage(image);
         }
         catch (FileNotFoundException exception){
             System.out.println("File not found, try again!");
-            return null;
         }
     }
 
-    public void displayImage() {
-        chosenImageView.setImage(fileChooser());
-        width=(int)image.getWidth();
-        height=(int)image.getHeight();
+    public void displayImage(Image img) {
+        chosenImageView.setImage(img);
+        width=(int)img.getWidth();
+        height=(int)img.getHeight();
     }
 
     public void getColourAtMouseR(javafx.scene.input.MouseEvent mouseEvent) {
@@ -55,6 +57,7 @@ public class Controller {
     }
 
     public Image greyscaleConversion() {
+        selectedHue = selectedColor.getHue();
         selectedSaturation = selectedColor.getSaturation();
         selectedBrightness = selectedColor.getBrightness();
         updateGreyImageTools();
@@ -63,7 +66,7 @@ public class Controller {
             for(int y=0; y<height; y++) {
                 pixelColor=greyPixelReader.getColor(x, y);
                 if(compareSaturation(pixelColor.getSaturation(), selectedSaturation) && compareBrightness(pixelColor.getBrightness(), selectedBrightness)
-                                && pixelColor.getRed() > pixelColor.getBlue() && pixelColor.getRed() > pixelColor.getGreen())
+                                && compareHue(pixelColor.getHue(), selectedHue) && pixelColor.getRed() > pixelColor.getBlue() && pixelColor.getRed() > pixelColor.getGreen())
                     greyPixelWriter.setColor(x, y, Color.valueOf("#ffffff"));
                 else {
                     greyPixelWriter.setColor(x, y, Color.valueOf("#000000"));
@@ -78,54 +81,33 @@ public class Controller {
         greyImageView.setImage(greyscaleConversion());
     }
 
+    public boolean compareHue(double firstHue, double secondHue) {
+        return (Math.abs(firstHue - secondHue) < hueDifference);
+    }
+
     public boolean compareSaturation(double firstSaturation, double secondSaturation) {
-        return (Math.abs(firstSaturation - secondSaturation) < .4);
+        return (Math.abs(firstSaturation - secondSaturation) < saturationDifference);
     }
 
     public boolean compareBrightness(double firstBrightness, double secondBrightness) {
-        return (Math.abs(firstBrightness - secondBrightness) < .3);
+        return (Math.abs(firstBrightness - secondBrightness) < brightnessDifference);
     }
 
-//
-//        for (int x = 1; x < width; x++) {
-//            for (int y = 1; y < height; y++) {
-//                currentColor = greyPR.getColor(x, y);
-//                setCurrentHSB();
-//
-//                if (compareHue(currentHue, selectedHue) && compareSaturation(currentSaturation, selectedSaturation) && compareBrightness(currentBrightness, selectedBrightness)) {
-//                    greyPW.setColor(x, y, Color.valueOf("#000000"));
-//                } else {
-//                    greyPW.setColor(x, y, Color.valueOf("#ffffff"));
-//                }
-//            }
-//        }
 
-//        greyImage = greyWI;
-//        return greyImage;
-//    }
-//
+    public void hueSliderChange() {
+        hueDifference=hueSlider.getValue();
+        displayGreyImage();
+    }
 
-//
-//
-//    public void displayImage() {
-//        width = (int) image.getWidth();
-//        height = (int) image.getHeight();
-//        PixelReader originalPR = image.getPixelReader();
-//        originalWI = new WritableImage(originalPR, width, height);
-//        originalPW = originalWI.getPixelWriter();
-//        originalImageView.setImage(image);
-//    }
-//
-//    public void setCurrentHSB() {
-//        currentHue = currentColor.getHue();
-//        currentSaturation = currentColor.getSaturation();
-//        currentBrightness = currentColor.getBrightness();
-//    }
-//
-//    public void setGreyscale() {
-//        Image newGreyImage = greyScaleConversion();
-//        greyScaleImageView.setImage(newGreyImage);
-//    }
+    public void saturationSliderChange() {
+        saturationDifference=saturationSlider.getValue();
+        displayGreyImage();
+    }
+
+    public void brightnessSliderChange() {
+        brightnessDifference=brightnessSlider.getValue();
+        displayGreyImage();
+    }
 
     public void exit() {
         System.exit(0);

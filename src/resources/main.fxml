@@ -136,7 +136,7 @@
                </HBox>
             </graphic>
          </Button>
-         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="294.0" style="-fx-background-color: #6D597A;" textFill="WHITE">
+         <Button mnemonicParsing="false" onAction="#reset" prefHeight="50.0" prefWidth="294.0" style="-fx-background-color: #6D597A;" textFill="WHITE">
             <font>
                <Font name="Calibri Bold" size="16.0" />
             </font>
@@ -186,7 +186,7 @@
                      <Insets left="312.0" right="32.0" />
                   </VBox.margin>
                </Label>
-               <Slider fx:id="hueSlider" blockIncrement="0.001" max="360.0" onMouseClicked="#hueSliderChange" onMouseDragged="#hueSliderChange" value="1.0">
+               <Slider fx:id="hueSlider" blockIncrement="1.0E-4" max="360.0" onMouseClicked="#hueSliderChange" onMouseDragged="#hueSliderChange">
                   <VBox.margin>
                      <Insets left="308.0" right="32.0" />
                   </VBox.margin>
@@ -196,7 +196,7 @@
                      <Insets left="312.0" right="32.0" top="8.0" />
                   </VBox.margin>
                </Label>
-               <Slider fx:id="saturationSlider" blockIncrement="0.001" max="1.0" onMouseClicked="#saturationSliderChange" onMouseDragged="#saturationSliderChange" value="0.5">
+               <Slider fx:id="saturationSlider" blockIncrement="1.0E-4" max="1.0" onMouseClicked="#saturationSliderChange" onMouseDragged="#saturationSliderChange" value="0.5">
                   <VBox.margin>
                      <Insets left="308.0" right="32.0" />
                   </VBox.margin>
@@ -206,7 +206,7 @@
                      <Insets left="312.0" right="32.0" top="8.0" />
                   </VBox.margin>
                </Label>
-               <Slider fx:id="brightnessSlider" blockIncrement="0.001" max="1.0" onMouseClicked="#brightnessSliderChange" onMouseDragged="#brightnessSliderChange" value="0.5">
+               <Slider fx:id="brightnessSlider" blockIncrement="1.0E-4" max="1.0" onMouseClicked="#brightnessSliderChange" onMouseDragged="#brightnessSliderChange" value="0.5">
                   <VBox.margin>
                      <Insets left="308.0" right="32.0" />
                   </VBox.margin>

@@ -1,6 +1,7 @@
 package sample;
 
 public class DisjointSet<N> {
+    int size;
 
     public static int find(int[] a, int id) {
         return a[id] < 0 ? id : find(a, a[id]);

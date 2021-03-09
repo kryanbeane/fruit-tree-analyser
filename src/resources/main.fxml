@@ -177,9 +177,9 @@
             <Font name="System Bold" size="10.0" />
         </font>
     </Button>
-   <BorderPane layoutX="275.0" layoutY="29.0" prefHeight="623.0" prefWidth="574.0" style="-fx-background-color: #e5dfe8;">
+   <BorderPane layoutX="275.0" layoutY="29.0" prefHeight="618.0" prefWidth="574.0" style="-fx-background-color: #e5dfe8;">
       <bottom>
-         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <VBox prefHeight="125.0" prefWidth="574.0" BorderPane.alignment="CENTER">
             <children>
                <Label alignment="CENTER" prefHeight="17.0" prefWidth="295.0" text="Hue">
                   <VBox.margin>
@@ -215,17 +215,33 @@
          </VBox>
       </bottom>
       <left>
-         <ImageView fx:id="chosenImageView" fitHeight="250.0" fitWidth="250.0" onMouseClicked="#getColourAtMouseR" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-            <BorderPane.margin>
-               <Insets left="24.0" />
-            </BorderPane.margin>
-         </ImageView>
+         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+               <ImageView fx:id="chosenImageView" fitHeight="250.0" fitWidth="250.0" onMouseClicked="#getColourAtMouseR" pickOnBounds="true" preserveRatio="true">
+                  <VBox.margin>
+                     <Insets bottom="12.0" left="24.0" right="12.0" top="24.0" />
+                  </VBox.margin>
+               </ImageView>
+               <Label fx:id="pleaseClick" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="294.0" text="Please click on a fruit to select its colour! " visible="false">
+                  <VBox.margin>
+                     <Insets bottom="4.0" left="24.0" right="12.0" />
+                  </VBox.margin>
+               </Label>
+            </children>
+         </VBox>
       </left>
+      <top>
+         <HBox prefHeight="190.0" prefWidth="574.0" BorderPane.alignment="CENTER" />
+      </top>
       <right>
-         <ImageView fx:id="greyImageView" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
-            <BorderPane.margin>
-               <Insets right="24.0" />
-            </BorderPane.margin>
-         </ImageView>
+         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <children>
+               <ImageView fx:id="greyImageView" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+                  <VBox.margin>
+                     <Insets bottom="24.0" left="12.0" right="24.0" top="24.0" />
+                  </VBox.margin>
+               </ImageView>
+            </children>
+         </VBox>
       </right></BorderPane>
 </AnchorPane>

@@ -19,7 +19,6 @@ public class DisjointSet<N> {
         public DsNode<?> parent = null;
         public S data;
         public int size = 1;
-        public int height = 1;
 
         // Constructor
         public DsNode(DsNode<?> parent, S data) {

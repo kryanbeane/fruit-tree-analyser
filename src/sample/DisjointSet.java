@@ -1,30 +1,29 @@
 package sample;
 
-public class DisjointSet<N> {
+public class DisjointSet {
 
-    public static DsNode<?> find(DsNode<?> node) {
-        return node.parent == null ? node : (node.parent = find(node.parent));
+    public static void unionBySize(int[] array, int p, int q) {
+        int rootp = find(array, p);
+        int rootq = find(array, q);
+
+        int biggerRoot = array[rootp] < array[rootq] ? rootp : rootq;
+        int smallerRoot = biggerRoot == rootp ? rootq : rootp;
+        int smallSize = array[smallerRoot];
+
+        array[smallerRoot] = biggerRoot;
+        array[biggerRoot] += smallSize;
     }
 
-    public static void unionBySize(DsNode<?> p, DsNode<?> q) {
-        DsNode<?> rootp = find(p);
-        DsNode<?> rootq = find(q);
-        DsNode<?> biggerRoot = rootp.size >= rootq.size ? rootp : rootq;
-        DsNode<?> smallerRoot = biggerRoot == rootp ? rootq : rootp;
-        smallerRoot.parent = biggerRoot;
-        biggerRoot.size += smallerRoot.size;
+    public static void quickUnion(int[] a, int p, int q) {
+        a[find(a,q)]=p; //The root of q is made reference p
     }
 
-    public static class DsNode<S> {
-        public DsNode<?> parent = null;
-        public S data;
-        public int size = 1;
+    public static void unionTwoSinglesBySize(int[] array, int p, int q) {
 
-        // Constructor
-        public DsNode(DsNode<?> parent, S data) {
-            this.parent = parent;
-            this.data = data;
-
-        }
     }
+
+    public static int find(int[] array, int id) {
+        return array[id] < 0 ? id : find(array, array[id]);
+    }
+
 }

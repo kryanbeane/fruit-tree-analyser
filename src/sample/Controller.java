@@ -17,35 +17,68 @@ public class Controller {
     @FXML Slider hueSlider, saturationSlider, brightnessSlider;
     @FXML Label pleaseClick;
     @FXML AnchorPane chosenColor;
-    Image img; PixelReader pr; PixelWriter pw; WritableImage wi;
-    Color selectedColor, pixelColor;
-    double selectedHue, selectedSaturation, selectedBrightness, hueDifference, saturationDifference, brightnessDifference;
+    double selectedHue, selectedSaturation, selectedBrightness;
+    double hueDifference, saturationDifference, brightnessDifference;
     int width, height;
     int[] pixelArray;
     HashMap<Integer, Integer> fruitClusters = new HashMap<Integer, Integer>();
+    Image img, gsImg; PixelReader pr, gsPr; PixelWriter pw, gsPw; WritableImage wi, gsWi;
+    Color selectedColor, pixelColor;
 
-    // BLACK AND WHITE CONVERSION //
-    public Image greyscaleConversion() {
-        pixelArray = new int[width*height];
 
-        if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 1) {
-            biggerRedFruitRecog(pr, pw);
-        }
-        else if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 2) {
-            biggerBlueFruitRecog(pr, pw);
-        }
 
-        System.out.println(Arrays.toString(pixelArray));
-        img=wi;
-        return img;
+
+
+    public void unionFruitPixels(int[] array, int width, int height) {
+        // loop through array
+        for (int i=0; i<array.length; i++)
+            if (pixelIsWhite(array, i)) { // checks if pixel is white and not already in a disjoint set
+                int top = i - width, right = i + 1, bottom = i + width, left = i - 1;
+
+                if (!atTopEdge(i, width)) {
+                    checkTopPixel(array, i, top);
+                }
+                if (!atRightEdge(i, width)) {
+                    checkRightPixel(array, i, right);
+                }
+                if (!atBottomEdge(i, width, height)) {
+                    checkBottomPixel(array, i, bottom);
+                }
+                if (!atLeftEdge(i, width)) {
+                    checkLeftPixel(array, i, left);
+                }
+            }
     }
 
-    // DECIDE WHAT COLOUR THE FRUIT CLICKED ON IS //
-    public void biggerRedFruitRecog(PixelReader pr, PixelWriter pw) {
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+    public void checkTopPixel(int[] a, int i, int top) {
+        if (pixelIsWhite(a, top) && pixelNotInASet(a, i, top)) {
+            DisjointSet.unionBySize(a, i, top);
+        }
+    }
+
+    public void checkRightPixel(int[] a, int i, int right) {
+        if (pixelIsWhite(a, right) && pixelNotInASet(a, i, right)) {
+            DisjointSet.unionBySize(a, i, right);
+        }
+    }
+
+    public void checkBottomPixel(int[] a, int i, int bottom) {
+        if (pixelIsWhite(a, bottom) && pixelNotInASet(a, i, bottom)) {
+            DisjointSet.unionBySize(a, i, bottom);
+        }
+    }
+
+    public void checkLeftPixel(int[] a, int i, int left) {
+        if (pixelIsWhite(a, left) && pixelNotInASet(a, i, left)) {
+            DisjointSet.unionBySize(a, i, left);
+        }
+    }
+
+    public void biggerRedFruitRecog() {
+        for (int x=0; x<width; x++) {
+            for (int y=0; y<height; y++) {
                 pixelColor = pr.getColor(x, y);
-                if (compareHSB() && pixelColor.getRed() > pixelColor.getBlue() && pixelColor.getRed() > pixelColor.getGreen()) {
+                if (compareHSB() && pixelColor.getRed()>pixelColor.getBlue() && pixelColor.getRed()>pixelColor.getGreen()) {
                     pw.setColor(x, y, Color.valueOf("#ffffff"));
                     addFruitToArray(y, x);
                 } else {
@@ -56,13 +89,7 @@ public class Controller {
         }
     }
 
-    public void newDS() {
-        DisjointSet<Integer> ds = new DisjointSet<>();
-
-
-    }
-
-    public void biggerBlueFruitRecog(PixelReader pr, PixelWriter pw) {
+    public void biggerBlueFruitRecog() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 pixelColor = pr.getColor(x, y);
@@ -77,22 +104,15 @@ public class Controller {
         }
     }
 
-    public void addFruitToArray(int row, int column) {
-        int a = (row*width) + column;
-        pixelArray[a] = a;
+    public void addFruitToArray(int r, int c) {
+        int pos = calculateArrayPosition(r, c);
+        pixelArray[pos] = pos;
     }
 
-    public void addNonFruitToArray(int row, int column) {
-        pixelArray[(row*width)+column] = -1;
+    public void addNonFruitToArray(int r, int c) {
+        pixelArray[calculateArrayPosition(r, c)] = -1;
     }
 
-    // DECIDES WHICH RGB VALUES TO USE AS FRUITS DEPENDING ON COLOUR CLICKED ON BY USER //
-    public int decideRGB(double r, double g, double b) {
-        if (r > g && r > b) return 1;
-        return 2;
-    }
-
-    // RGB STUFF //
     public void getColourAtMouseR(javafx.scene.input.MouseEvent mouseEvent) {
         selectedColor = pr.getColor((int) mouseEvent.getX(), (int) mouseEvent.getY());
         selectedHue=selectedColor.getHue();
@@ -105,26 +125,10 @@ public class Controller {
     }
 
     public void displayGreyImage() {
-        greyImageView.setImage(greyscaleConversion());
+        gsImg = greyscaleConversion();
+        greyImageView.setImage(gsImg);
     }
 
-    // SLIDERS //
-    public void hueSliderChange() {
-        hueDifference = hueSlider.getValue();
-        displayGreyImage();
-    }
-
-    public void saturationSliderChange() {
-        saturationDifference = saturationSlider.getValue();
-        displayGreyImage();
-    }
-
-    public void brightnessSliderChange() {
-        brightnessDifference = brightnessSlider.getValue();
-        displayGreyImage();
-    }
-
-    // SET DIFFERENCES, USED FOR B&W CONVERSIONS //
     public void setHueDifference(double newHue) {
         hueDifference=newHue;
     }
@@ -143,7 +147,62 @@ public class Controller {
         setBrightnessDifference(newBrightness);
     }
 
-    // COMPARE HSB METHODS //
+    public void fileChooser() throws FileNotFoundException {
+        FileChooser fc = new FileChooser();
+        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG Files", "*.png"), new FileChooser.ExtensionFilter("JPEG Files", "*.jpg"));
+        File file = fc.showOpenDialog(null);
+        initializeImage(file);
+        setDifferences(360, 0.4, 0.3);
+        chosenImageView.setImage(img);
+        pleaseClick.setVisible(true);
+    }
+
+    public void initializeImage(File file) throws FileNotFoundException {
+        img = new Image(new FileInputStream(file), (int)chosenImageView.getFitWidth(), (int)chosenImageView.getFitHeight(), false, true);
+        width = (int)img.getWidth();
+        height = (int)img.getHeight();
+        pr=img.getPixelReader();
+        wi=new WritableImage(pr, width, height);
+        pw=wi.getPixelWriter();
+        pixelArray = new int[width*height];
+    }
+
+    public void initializeBlackWhiteImg() {
+        gsImg=img;
+        gsPr=gsImg.getPixelReader();
+        gsWi=new WritableImage(gsPr, width, height);
+        gsPw=gsWi.getPixelWriter();
+    }
+
+    public void hueSliderChange() {
+        hueDifference = hueSlider.getValue();
+        displayGreyImage();
+    }
+
+    public void saturationSliderChange() {
+        saturationDifference = saturationSlider.getValue();
+        displayGreyImage();
+    }
+
+    public void brightnessSliderChange() {
+        brightnessDifference = brightnessSlider.getValue();
+        displayGreyImage();
+    }
+
+    public void reset() {
+        selectedColor = null;
+        chosenImageView.setImage(null);
+        greyImageView.setImage(null);
+        hueSlider.setValue(0);
+        saturationSlider.setValue(0.5);
+        brightnessSlider.setValue(0.5);
+        pleaseClick.setVisible(false);
+    }
+
+    public void exit() {
+        System.exit(0);
+    }
+
     public boolean compareHue(double firstHue, double secondHue, double difference) {
         return (Math.abs(firstHue - secondHue) < difference);
     }
@@ -160,40 +219,54 @@ public class Controller {
         return compareSaturation(pixelColor.getSaturation(), selectedSaturation, saturationDifference) && compareBrightness(pixelColor.getBrightness(), selectedBrightness, brightnessDifference) && compareHue(pixelColor.getHue(), selectedHue, hueDifference);
     }
 
-    // IMAGE SETUP //
-    public void fileChooser() throws FileNotFoundException {
-        FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG Files", "*.png"), new FileChooser.ExtensionFilter("JPEG Files", "*.jpg"));
-        File file = fc.showOpenDialog(null);
-        imageInitialisation(file);
-        setDifferences(360, 0.4, 0.3);
-        chosenImageView.setImage(img);
-        pleaseClick.setVisible(true);
+    public boolean pixelIsWhite(int[] a, int i) {
+        return a[i] != -1;
     }
 
-    public void imageInitialisation(File file) throws FileNotFoundException {
-        img = new Image(new FileInputStream(file), (int)chosenImageView.getFitWidth(), (int)chosenImageView.getFitHeight(), false, true);
-        width = (int)img.getWidth();
-        height = (int)img.getHeight();
-        pr=img.getPixelReader();
-        wi=new WritableImage(pr, width, height);
-        pw=wi.getPixelWriter();
+    public boolean pixelNotInASet(int[] a, int i, int adjacent) {
+        return a[adjacent] != i;
+    }
+
+    public boolean atTopEdge(int i, int w) {
+        return i-w<0;
+    }
+
+    public boolean atRightEdge(int i, int w) {
+        return i%w==0;
+    }
+
+    public boolean atBottomEdge(int i, int w, int h) {
+        return i+w > w*h;
+    }
+
+    public boolean atLeftEdge(int i, int w) {
+        return i%w==1;
+    }
+
+    public int decideRGB(double r, double g, double b) {
+        if (r > g && r > b) return 1;
+        return 2;
+    }
+
+    public int calculateArrayPosition(int row, int column) {
+        return (row*width) + column;
+    }
+
+    public Image greyscaleConversion() {
+        initializeBlackWhiteImg();
         pixelArray = new int[width*height];
-    }
 
-    // EXIT AND RESET //
-    public void reset() {
-        selectedColor = null;
-        chosenImageView.setImage(null);
-        greyImageView.setImage(null);
-        hueSlider.setValue(0);
-        saturationSlider.setValue(0.5);
-        brightnessSlider.setValue(0.5);
-        pleaseClick.setVisible(false);
-    }
+        if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 1) {
+            biggerRedFruitRecog();
+        }
+        else if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 2) {
+            biggerBlueFruitRecog();
+        }
 
-    public void exit() {
-        System.exit(0);
+        unionFruitPixels(pixelArray, width, height);
+        System.out.println(Arrays.toString(pixelArray));
+        img=wi;
+        return img;
     }
 
 }

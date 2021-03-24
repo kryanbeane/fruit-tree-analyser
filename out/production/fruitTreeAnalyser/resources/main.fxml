@@ -217,7 +217,7 @@
       <left>
          <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-               <ImageView fx:id="chosenImageView" fitHeight="250.0" fitWidth="250.0" onMouseClicked="#getColourAtMouseR" pickOnBounds="true" preserveRatio="true">
+               <ImageView fx:id="chosenImageView" fitHeight="25.0" fitWidth="25.0" onMouseClicked="#getColourAtMouseR" pickOnBounds="true" preserveRatio="true">
                   <VBox.margin>
                      <Insets bottom="12.0" left="24.0" right="12.0" top="24.0" />
                   </VBox.margin>

@@ -52,25 +52,25 @@ public class Controller {
 
     public void checkTopPixel(int[] a, int i, int top) {
         if (pixelIsWhite(a, top) && pixelNotInASet(a, i, top)) {
-            DisjointSet.unionBySize(a, i, top);
+            DisjointSet.quickUnion(a, i, top);
         }
     }
 
     public void checkRightPixel(int[] a, int i, int right) {
         if (pixelIsWhite(a, right) && pixelNotInASet(a, i, right)) {
-            DisjointSet.unionBySize(a, i, right);
+            DisjointSet.quickUnion(a, i, right);
         }
     }
 
     public void checkBottomPixel(int[] a, int i, int bottom) {
         if (pixelIsWhite(a, bottom) && pixelNotInASet(a, i, bottom)) {
-            DisjointSet.unionBySize(a, i, bottom);
+            DisjointSet.quickUnion(a, i, bottom);
         }
     }
 
     public void checkLeftPixel(int[] a, int i, int left) {
         if (pixelIsWhite(a, left) && pixelNotInASet(a, i, left)) {
-            DisjointSet.unionBySize(a, i, left);
+            DisjointSet.quickUnion(a, i, left);
         }
     }
 

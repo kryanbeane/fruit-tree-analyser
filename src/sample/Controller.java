@@ -9,6 +9,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -21,13 +22,34 @@ public class Controller {
     double hueDifference, saturationDifference, brightnessDifference;
     int width, height;
     int[] pixelArray;
-    HashMap<Integer, Integer> fruitClusters = new HashMap<Integer, Integer>();
+    HashMap<Integer, ArrayList<Integer>> fruitClusters = new HashMap<>();
     Image img, gsImg; PixelReader pr, gsPr; PixelWriter pw, gsPw; WritableImage wi, gsWi;
     Color selectedColor, pixelColor;
 
+    public void createHashMap(int[] array, HashMap<Integer, ArrayList<Integer>> hashMap) {
+        for(int x=0; x<array.length; x++) {
+            if(pixelIsWhite(array, x)) {
+                int root = DisjointSet.find(array, x);
+                if (rootNotStored(root, hashMap)) {
+                    ArrayList<Integer> tmpList = new ArrayList<>();
+                    for (int i = x; i < array.length; i++) {
+                        if (pixelIsWhite(array, i) && currentRootEqualsTempRoot(array, i, root)) {
+                            tmpList.add(i);
+                        }
+                    }
+                    hashMap.put(root, tmpList);
+                }
+            }
+        }
+    }
 
+    public boolean rootNotStored(int root, HashMap<Integer, ArrayList<Integer>> hashMap) {
+        return !hashMap.containsKey(root);
+    }
 
-
+    public boolean currentRootEqualsTempRoot(int[] array, int i, int root) {
+        return DisjointSet.find(array, i) == root;
+    }
 
     public void unionFruitPixels(int[] array, int width, int height) {
         // loop through array
@@ -264,9 +286,23 @@ public class Controller {
         }
 
         unionFruitPixels(pixelArray, width, height);
+        createHashMap(pixelArray, fruitClusters);
         System.out.println(Arrays.toString(pixelArray));
+        displayHashMap(fruitClusters);
         img=wi;
         return img;
     }
 
+    public void displayHashMap(HashMap<Integer , ArrayList<Integer>> hm) {
+        try {
+            System.out.println("-----------------------------------------");
+            Object[] a = hm.keySet().toArray();
+            for (Object o : a) {
+                System.out.println(o);
+                System.out.println(hm.get(o));
+            }
+        } catch(Exception e) {
+            System.out.println("NO");
+        }
+    }
 }

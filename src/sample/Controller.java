@@ -3,7 +3,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import java.io.File;
@@ -17,14 +16,23 @@ public class Controller {
     @FXML ImageView chosenImageView, greyImageView;
     @FXML Slider hueSlider, saturationSlider, brightnessSlider;
     @FXML Label pleaseClick;
-    @FXML AnchorPane chosenColor;
     double selectedHue, selectedSaturation, selectedBrightness;
     double hueDifference, saturationDifference, brightnessDifference;
-    int width, height;
+    int width, height, totalPixels;
     int[] pixelArray;
     HashMap<Integer, ArrayList<Integer>> fruitClusters = new HashMap<>();
     Image img, gsImg; PixelReader pr, gsPr; PixelWriter pw, gsPw; WritableImage wi, gsWi;
     Color selectedColor, pixelColor;
+
+    public int totalWhitePixels(HashMap<Integer, ArrayList<Integer>> hashMap) {
+        int totalPixels=0;
+        Object[] a = hashMap.keySet().toArray();
+        for (Object o : a) {
+            ArrayList<Integer> al = hashMap.get(o);
+                totalPixels += al.size();
+            }
+        return totalPixels;
+    }
 
     public void createHashMap(int[] array, HashMap<Integer, ArrayList<Integer>> hashMap) {
         for(int x=0; x<array.length; x++) {
@@ -43,20 +51,10 @@ public class Controller {
         }
     }
 
-    public boolean rootNotStored(int root, HashMap<Integer, ArrayList<Integer>> hashMap) {
-        return !hashMap.containsKey(root);
-    }
-
-    public boolean currentRootEqualsTempRoot(int[] array, int i, int root) {
-        return DisjointSet.find(array, i) == root;
-    }
-
     public void unionFruitPixels(int[] array, int width, int height) {
-        // loop through array
-        for (int i=0; i<array.length; i++)
-            if (pixelIsWhite(array, i)) { // checks if pixel is white and not already in a disjoint set
+        for (int i=0; i<array.length; i++) {
+            if (pixelIsWhite(array, i)) {
                 int top = i - width, right = i + 1, bottom = i + width, left = i - 1;
-
                 if (!atTopEdge(i, width)) {
                     checkTopPixel(array, i, top);
                 }
@@ -70,29 +68,36 @@ public class Controller {
                     checkLeftPixel(array, i, left);
                 }
             }
+        }
+    }
+
+    public void unionPixels(int[] array, int a, int b) {
+        if(DisjointSet.find(array, a) < DisjointSet.find(array, b))
+            DisjointSet.quickUnion(array, a, b);
+        DisjointSet.quickUnion(array, b, a);
     }
 
     public void checkTopPixel(int[] a, int i, int top) {
-        if (pixelIsWhite(a, top) && pixelNotInASet(a, i, top)) {
-            DisjointSet.quickUnion(a, i, top);
+        if (pixelIsWhite(a, top)) {
+            unionPixels(a, i, top);
         }
     }
 
     public void checkRightPixel(int[] a, int i, int right) {
-        if (pixelIsWhite(a, right) && pixelNotInASet(a, i, right)) {
-            DisjointSet.quickUnion(a, i, right);
+        if (pixelIsWhite(a, right)) {
+            unionPixels(a, i, right);
         }
     }
 
     public void checkBottomPixel(int[] a, int i, int bottom) {
-        if (pixelIsWhite(a, bottom) && pixelNotInASet(a, i, bottom)) {
-            DisjointSet.quickUnion(a, i, bottom);
+        if (pixelIsWhite(a, bottom)) {
+            unionPixels(a, i, bottom);
         }
     }
 
     public void checkLeftPixel(int[] a, int i, int left) {
-        if (pixelIsWhite(a, left) && pixelNotInASet(a, i, left)) {
-            DisjointSet.quickUnion(a, i, left);
+        if (pixelIsWhite(a, left)) {
+            unionPixels(a, i, left);
         }
     }
 
@@ -245,16 +250,12 @@ public class Controller {
         return a[i] != -1;
     }
 
-    public boolean pixelNotInASet(int[] a, int i, int adjacent) {
-        return a[adjacent] != i;
-    }
-
     public boolean atTopEdge(int i, int w) {
         return i-w<0;
     }
 
     public boolean atRightEdge(int i, int w) {
-        return i%w==0;
+        return (2*(i+1)) % w == 0;
     }
 
     public boolean atBottomEdge(int i, int w, int h) {
@@ -262,7 +263,15 @@ public class Controller {
     }
 
     public boolean atLeftEdge(int i, int w) {
-        return i%w==1;
+        return i%w==0;
+    }
+
+    public boolean rootNotStored(int root, HashMap<Integer, ArrayList<Integer>> hashMap) {
+        return !hashMap.containsKey(root);
+    }
+
+    public boolean currentRootEqualsTempRoot(int[] array, int i, int root) {
+        return DisjointSet.find(array, i) == root;
     }
 
     public int decideRGB(double r, double g, double b) {
@@ -277,32 +286,34 @@ public class Controller {
     public Image greyscaleConversion() {
         initializeBlackWhiteImg();
         pixelArray = new int[width*height];
-
         if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 1) {
             biggerRedFruitRecog();
         }
         else if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 2) {
             biggerBlueFruitRecog();
         }
-
         unionFruitPixels(pixelArray, width, height);
         createHashMap(pixelArray, fruitClusters);
-        System.out.println(Arrays.toString(pixelArray));
-        displayHashMap(fruitClusters);
+        displayHashMap();
+        displayArray();
         img=wi;
         return img;
     }
 
-    public void displayHashMap(HashMap<Integer , ArrayList<Integer>> hm) {
-        try {
+    public void displayHashMap() {
+        Object[] a = fruitClusters.keySet().toArray();
+        for (Object o : a) {
+            System.out.println("Root: ");
+            System.out.println(o);
+            System.out.println("Pixels in Cluster:");
+            System.out.println(fruitClusters.get(o));
             System.out.println("-----------------------------------------");
-            Object[] a = hm.keySet().toArray();
-            for (Object o : a) {
-                System.out.println(o);
-                System.out.println(hm.get(o));
-            }
-        } catch(Exception e) {
-            System.out.println("NO");
+        }
+    }
+
+    public void displayArray() {
+        for(int x=0; x<pixelArray.length; x++) {
+            System.out.println(x + " " + pixelArray[x]);
         }
     }
 }

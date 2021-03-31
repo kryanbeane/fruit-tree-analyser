@@ -7,8 +7,6 @@ public class DisjointSet {
     }
 
     public static int find(int[] a, int id) {
-        return a[id]==id ? id : ( a[id]= find(a,a[id]));
+        return a[id] == id ? id : ( a[id] = find(a,a[id]) );
     }
-
-
 }

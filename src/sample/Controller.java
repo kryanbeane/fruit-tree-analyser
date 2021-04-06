@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class Controller {
@@ -18,11 +17,22 @@ public class Controller {
     @FXML Label pleaseClick;
     double selectedHue, selectedSaturation, selectedBrightness;
     double hueDifference, saturationDifference, brightnessDifference;
-    int width, height, totalPixels;
+    int width, height;
     int[] pixelArray;
     HashMap<Integer, ArrayList<Integer>> fruitClusters = new HashMap<>();
     Image img, gsImg; PixelReader pr, gsPr; PixelWriter pw, gsPw; WritableImage wi, gsWi;
     Color selectedColor, pixelColor;
+
+    public void identifyBoundaries() {
+        
+    }
+
+    public void clusterPopUp() {
+    }
+
+    public void getClusterAtMouse(javafx.scene.input.MouseEvent mouseEvent) {
+        int x = (int)mouseEvent.getX(), y = (int)mouseEvent.getY();
+    }
 
     public int totalWhitePixels(HashMap<Integer, ArrayList<Integer>> hashMap) {
         int totalPixels=0;

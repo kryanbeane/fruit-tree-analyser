@@ -8,8 +8,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 public class Controller {
     @FXML ImageView chosenImageView, greyImageView;
@@ -23,24 +22,19 @@ public class Controller {
     Image img, gsImg; PixelReader pr, gsPr; PixelWriter pw, gsPw; WritableImage wi, gsWi;
     Color selectedColor, pixelColor;
 
-    public void identifyBoundaries() {
-        
-    }
-
-    public void clusterPopUp() {
-    }
 
     public void getClusterAtMouse(javafx.scene.input.MouseEvent mouseEvent) {
         int x = (int)mouseEvent.getX(), y = (int)mouseEvent.getY();
+        if(pixelIsWhite(pixelArray, calculateArrayPosition(y, x))) {
+
+        }
     }
 
-    public int totalWhitePixels(HashMap<Integer, ArrayList<Integer>> hashMap) {
+    public int totalWhitePixels(HashMap<Integer, ArrayList<Integer>> hm) {
         int totalPixels=0;
-        Object[] a = hashMap.keySet().toArray();
-        for (Object o : a) {
-            ArrayList<Integer> al = hashMap.get(o);
-                totalPixels += al.size();
-            }
+        for (int i : hm.keySet()) {
+            totalPixels += hm.get(i).size();
+        }
         return totalPixels;
     }
 
@@ -305,7 +299,7 @@ public class Controller {
         unionFruitPixels(pixelArray, width, height);
         createHashMap(pixelArray, fruitClusters);
         displayHashMap();
-        displayArray();
+        //displayArray();
         img=wi;
         return img;
     }

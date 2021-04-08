@@ -107,7 +107,7 @@
                </HBox>
             </graphic>
          </Button>
-         <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="314.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
+         <Button mnemonicParsing="false" onAction="#setPixelBorders" prefHeight="50.0" prefWidth="314.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
             <font>
                <Font name="Calibri Bold" size="16.0" />
             </font>

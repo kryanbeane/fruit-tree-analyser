@@ -1,9 +1,12 @@
 package sample;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.*;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,13 +25,58 @@ public class Controller {
     Image img, gsImg; PixelReader pr, gsPr; PixelWriter pw, gsPw; WritableImage wi, gsWi;
     Color selectedColor, pixelColor;
 
-
-    public void getClusterAtMouse(javafx.scene.input.MouseEvent mouseEvent) {
-        int x = (int)mouseEvent.getX(), y = (int)mouseEvent.getY();
-        if(pixelIsWhite(pixelArray, calculateArrayPosition(y, x))) {
-
-        }
+    public int calcFurtherLeftPixel(int posA, int posB, int w) {
+        return posA%w < posB%w ? posA : posB;
     }
+
+    public int calcFurtherRightPixel(int posA, int posB, int w) {
+        return posA%w > posB%w ? posA : posB;
+    }
+
+    public void drawClusterBorder(int root, HashMap<Integer, ArrayList<Integer>> fruitClusters, int width) {
+        List<Integer> tmpList = fruitClusters.get(root);
+        int fLeft =root, fRight =tmpList.get(tmpList.size()-1), bottom =tmpList.get(tmpList.size()-1);
+        for(int i : tmpList) {
+            fLeft = i < tmpList.size() ? calcFurtherLeftPixel(fLeft, i, width) : fLeft;
+            fRight = i < tmpList.size() ? calcFurtherRightPixel(fRight, i, width) : fRight;
+        }
+
+        int leftX = calcXFromIndex(fLeft, width);
+        int rightX = calcXFromIndex(fRight, width);
+        int topY = calcYFromIndex(root, width);
+        int botY = calcYFromIndex(bottom, width);
+
+        drawBorder(leftX, rightX, topY, botY);
+
+
+    }
+
+    public void drawBorder(int leftX, int rightX, int topY, int botY) {
+        for(int x=leftX; x<=rightX; x++)
+            pw.setColor(x, topY, Color.BLUE);
+        for(int y=topY; y<=botY; y++)
+            pw.setColor(rightX, y, Color.BLUE);
+        for(int x=rightX; x>=rightX; x--)
+            pw.setColor(x, botY, Color.BLUE);
+        for(int y=botY; y>=topY; y--)
+            pw.setColor(leftX, y, Color.BLUE);
+    }
+
+    public void setPixelBorders() {
+        for(int i : fruitClusters.keySet())
+            drawClusterBorder(i, fruitClusters, width);
+        System.out.println("wahay");
+    }
+
+//    public void getClusterAtMouse(javafx.scene.input.MouseEvent mouseEvent) {
+//        int x = (int)mouseEvent.getX(), y = (int)mouseEvent.getY();
+//        while(gsImg!=null) {
+//            if(pixelIsWhite(pixelArray, calculateArrayPosition(y, x))) {
+//                int root = DisjointSet.find(pixelArray, calculateArrayPosition(y, x));
+//                ArrayList<Integer> tmpList = fruitClusters.get(root);
+//            }
+//        }
+//    }
 
     public int totalWhitePixels(HashMap<Integer, ArrayList<Integer>> hm) {
         int totalPixels=0;
@@ -135,13 +183,13 @@ public class Controller {
         }
     }
 
-    public void addFruitToArray(int r, int c) {
-        int pos = calculateArrayPosition(r, c);
+    public void addFruitToArray(int y, int x) {
+        int pos = calculateArrayPosition(y, x);
         pixelArray[pos] = pos;
     }
 
-    public void addNonFruitToArray(int r, int c) {
-        pixelArray[calculateArrayPosition(r, c)] = -1;
+    public void addNonFruitToArray(int y, int x) {
+        pixelArray[calculateArrayPosition(y, x)] = -1;
     }
 
     public void getColourAtMouseR(javafx.scene.input.MouseEvent mouseEvent) {
@@ -283,8 +331,16 @@ public class Controller {
         return 2;
     }
 
-    public int calculateArrayPosition(int row, int column) {
-        return (row*width) + column;
+    public int calculateArrayPosition(int y, int x) {
+        return (y*width) + x;
+    }
+
+    public int calcXFromIndex(int i, int width) {
+        return (i+1)%width;
+    }
+
+    public int calcYFromIndex(int i, int width) {
+        return (i+1)/width;
     }
 
     public Image greyscaleConversion() {

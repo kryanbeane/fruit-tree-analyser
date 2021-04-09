@@ -1,8 +1,11 @@
 package sample;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.*;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import java.io.File;
@@ -77,7 +80,7 @@ public class Controller {
 
         unionFruitPixels(pixelArray, width, height);
         createHashMap(pixelArray, fruitClusters);
-        displayHashMap();
+        //displayHashMap();
         //displayArray();
         return gsWi;
     }
@@ -269,27 +272,22 @@ public class Controller {
     public void setPixelBorders() {
         for(int i : fruitClusters.keySet())
             drawClusterBorder(i, fruitClusters, width);
-        System.out.println("wahay");
         chosenImageView.setImage(wi);
     }
 
     public void drawClusterBorder(int root, HashMap<Integer, ArrayList<Integer>> fruitClusters, int width) {
         List<Integer> tmpList = fruitClusters.get(root);
-
         int furthestLeftPixel = root,
             furthestRightPixel = root,
             bottomPixel = tmpList.get(tmpList.size()-1);
-
         for(int i : tmpList) {
             furthestLeftPixel = i>=tmpList.size() ? calcFurtherLeftPixel(furthestLeftPixel, i, width) : furthestLeftPixel;
             furthestRightPixel = i>=tmpList.size() ? calcFurtherRightPixel(furthestRightPixel, i, width) : furthestRightPixel;
         }
-
         int leftX = calcXFromIndex(furthestLeftPixel, width),
             rightX = calcXFromIndex(furthestRightPixel, width),
             topY = calcYFromIndex(root, width),
             botY = calcYFromIndex(bottomPixel, width);
-
         drawBorder(leftX, rightX, topY, botY);
     }
 
@@ -309,9 +307,6 @@ public class Controller {
         return (i)/width;
     }
 
-    public void test() {
-    }
-
     public void drawBorder(int leftX, int rightX, int topY, int botY) {
         for(int x=leftX; x<=rightX; x++)
             pw.setColor(x, topY, Color.BLUE);
@@ -326,14 +321,15 @@ public class Controller {
             pw.setColor(leftX, y, Color.BLUE);
     }
 
-    public void getClusterAtMouse(javafx.scene.input.MouseEvent mouseEvent) {
-        int x = (int)mouseEvent.getX(), y = (int)mouseEvent.getY();
-        while(gsImg!=null) {
+    public void getClusterAtMouse(javafx.scene.input.MouseEvent event) {
+        int x = (int)event.getX(), y = (int)event.getY();
+        if(gsImg!=null)
             if(pixelIsWhite(pixelArray, calculateArrayPosition(y, x, width))) {
                 int root = DisjointSet.find(pixelArray, calculateArrayPosition(y, x, width));
-                ArrayList<Integer> tmpList = fruitClusters.get(root);
+                Tooltip tooltip = new Tooltip();
+                tooltip.setText("Fruit/Cluster number: " + "#1" + "\n" + "Estimated size (pixel units): " + fruitClusters.get(root).size());
+                Tooltip.install(chosenImageView, tooltip);
             }
-        }
     }
 
     public int totalWhitePixels(HashMap<Integer, ArrayList<Integer>> hm) {

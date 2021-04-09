@@ -69,18 +69,17 @@ public class Controller {
     HashMap<Integer, ArrayList<Integer>> fruitClusters = new HashMap<>();
     public Image greyscaleConversion() {
         initializeBlackWhiteImg();
-        if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 1) {
+
+        if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 1)
             biggerRedFruitRecog();
-        }
-        else if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 2) {
+        else if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 2)
             biggerBlueFruitRecog();
-        }
+
         unionFruitPixels(pixelArray, width, height);
         createHashMap(pixelArray, fruitClusters);
         displayHashMap();
         //displayArray();
-        img=wi;
-        return img;
+        return gsWi;
     }
 
     public int decideRGB(double r, double g, double b) {
@@ -99,12 +98,12 @@ public class Controller {
     public void biggerRedFruitRecog() {
         for (int x=0; x<width; x++) {
             for (int y=0; y<height; y++) {
-                pixelColor = pr.getColor(x, y);
+                pixelColor = gsPr.getColor(x, y);
                 if (compareHSB() && pixelColor.getRed()>pixelColor.getBlue() && pixelColor.getRed()>pixelColor.getGreen()) {
-                    pw.setColor(x, y, Color.valueOf("#ffffff"));
+                    gsPw.setColor(x, y, Color.valueOf("#ffffff"));
                     addFruitToArray(y, x);
                 } else {
-                    pw.setColor(x, y, Color.valueOf("#000000"));
+                    gsPw.setColor(x, y, Color.valueOf("#000000"));
                     addNonFruitToArray(y, x);
                 }
             }
@@ -114,12 +113,12 @@ public class Controller {
     public void biggerBlueFruitRecog() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                pixelColor = pr.getColor(x, y);
+                pixelColor = gsPr.getColor(x, y);
                 if (compareHSB() && pixelColor.getRed() < pixelColor.getBlue() && pixelColor.getGreen() < pixelColor.getBlue()) {
-                    pw.setColor(x, y, Color.valueOf("#ffffff"));
+                    gsPw.setColor(x, y, Color.valueOf("#ffffff"));
                     addFruitToArray(y, x);
                 } else {
-                    pw.setColor(x, y, Color.valueOf("#000000"));
+                    gsPw.setColor(x, y, Color.valueOf("#000000"));
                     addNonFruitToArray(y, x);
                 }
             }
@@ -271,24 +270,27 @@ public class Controller {
         for(int i : fruitClusters.keySet())
             drawClusterBorder(i, fruitClusters, width);
         System.out.println("wahay");
+        chosenImageView.setImage(wi);
     }
 
     public void drawClusterBorder(int root, HashMap<Integer, ArrayList<Integer>> fruitClusters, int width) {
         List<Integer> tmpList = fruitClusters.get(root);
-        int fLeft =root, fRight =tmpList.get(tmpList.size()-1), bottom =tmpList.get(tmpList.size()-1);
+
+        int furthestLeftPixel = root,
+            furthestRightPixel = root,
+            bottomPixel = tmpList.get(tmpList.size()-1);
+
         for(int i : tmpList) {
-            fLeft = i < tmpList.size() ? calcFurtherLeftPixel(fLeft, i, width) : fLeft;
-            fRight = i < tmpList.size() ? calcFurtherRightPixel(fRight, i, width) : fRight;
+            furthestLeftPixel = i>=tmpList.size() ? calcFurtherLeftPixel(furthestLeftPixel, i, width) : furthestLeftPixel;
+            furthestRightPixel = i>=tmpList.size() ? calcFurtherRightPixel(furthestRightPixel, i, width) : furthestRightPixel;
         }
 
-        int leftX = calcXFromIndex(fLeft, width);
-        int rightX = calcXFromIndex(fRight, width);
-        int topY = calcYFromIndex(root, width);
-        int botY = calcYFromIndex(bottom, width);
+        int leftX = calcXFromIndex(furthestLeftPixel, width),
+            rightX = calcXFromIndex(furthestRightPixel, width),
+            topY = calcYFromIndex(root, width),
+            botY = calcYFromIndex(bottomPixel, width);
 
         drawBorder(leftX, rightX, topY, botY);
-
-
     }
 
     public int calcFurtherLeftPixel(int posA, int posB, int w) {
@@ -300,20 +302,26 @@ public class Controller {
     }
 
     public int calcXFromIndex(int i, int width) {
-        return (i+1)%width;
+        return (i)%width;
     }
 
     public int calcYFromIndex(int i, int width) {
-        return (i+1)/width;
+        return (i)/width;
+    }
+
+    public void test() {
     }
 
     public void drawBorder(int leftX, int rightX, int topY, int botY) {
         for(int x=leftX; x<=rightX; x++)
             pw.setColor(x, topY, Color.BLUE);
+
         for(int y=topY; y<=botY; y++)
             pw.setColor(rightX, y, Color.BLUE);
-        for(int x=rightX; x>=rightX; x--)
+
+        for(int x=rightX; x>=leftX; x--)
             pw.setColor(x, botY, Color.BLUE);
+
         for(int y=botY; y>=topY; y--)
             pw.setColor(leftX, y, Color.BLUE);
     }
@@ -364,6 +372,5 @@ public class Controller {
     public void exit() {
         System.exit(0);
     }
-
 
 }

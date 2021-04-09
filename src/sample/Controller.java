@@ -1,17 +1,12 @@
 package sample;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.*;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
+
 import java.util.*;
+import java.io.*;
 
 public class Controller {
     @FXML ImageView chosenImageView, greyImageView;
@@ -72,7 +67,6 @@ public class Controller {
     HashMap<Integer, ArrayList<Integer>> fruitClusters = new HashMap<>();
     public Image greyscaleConversion() {
         initializeBlackWhiteImg();
-
         if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 1)
             biggerRedFruitRecog();
         else if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 2)
@@ -80,8 +74,6 @@ public class Controller {
 
         unionFruitPixels(pixelArray, width, height);
         createHashMap(pixelArray, fruitClusters);
-        //displayHashMap();
-        //displayArray();
         return gsWi;
     }
 
@@ -270,9 +262,44 @@ public class Controller {
     }
 
     public void setPixelBorders() {
+        removeOutliers(fruitClusters);
         for(int i : fruitClusters.keySet())
             drawClusterBorder(i, fruitClusters, width);
         chosenImageView.setImage(wi);
+    }
+
+    public ArrayList<Integer> createSortedSizeArray(HashMap<Integer, ArrayList<Integer>> hm) {
+        ArrayList<Integer> arrayOfSizes = new ArrayList<>();
+        for(int i : hm.keySet())
+            arrayOfSizes.add(hm.get(i).size());
+        Collections.sort(arrayOfSizes);
+        return arrayOfSizes;
+    }
+
+    public int calcIQR(ArrayList<Integer> a, int length) {
+        int middleIndex = calcMedian(0, length);
+        int Q1 = a.get(calcMedian(0, middleIndex));
+        int Q3 = a.get(calcMedian(middleIndex+1, length));
+        return (Q3-Q1);
+    }
+
+    public int calcMedian(int l, int r) {
+        int n = r-l+1;
+        n = (n+1)/2-1;
+        return n+l;
+    }
+
+    public void removeOutliers(HashMap<Integer, ArrayList<Integer>> hm) {
+        int IQR = calcIQR(createSortedSizeArray(hm), createSortedSizeArray(hm).size());
+        Set<Map.Entry<Integer, ArrayList<Integer>>> setOfEntries = hm.entrySet();
+        Iterator<Map.Entry<Integer, ArrayList<Integer>>> iterator = setOfEntries.iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry<Integer, ArrayList<Integer>> entry = iterator.next();
+            int size = entry.getValue().size();
+            if(size < IQR)
+                iterator.remove();
+        }
     }
 
     public void drawClusterBorder(int root, HashMap<Integer, ArrayList<Integer>> fruitClusters, int width) {
@@ -310,13 +337,10 @@ public class Controller {
     public void drawBorder(int leftX, int rightX, int topY, int botY) {
         for(int x=leftX; x<=rightX; x++)
             pw.setColor(x, topY, Color.BLUE);
-
         for(int y=topY; y<=botY; y++)
             pw.setColor(rightX, y, Color.BLUE);
-
         for(int x=rightX; x>=leftX; x--)
             pw.setColor(x, botY, Color.BLUE);
-
         for(int y=botY; y>=topY; y--)
             pw.setColor(leftX, y, Color.BLUE);
     }
@@ -330,14 +354,6 @@ public class Controller {
                 tooltip.setText("Fruit/Cluster number: " + "#1" + "\n" + "Estimated size (pixel units): " + fruitClusters.get(root).size());
                 Tooltip.install(chosenImageView, tooltip);
             }
-    }
-
-    public int totalWhitePixels(HashMap<Integer, ArrayList<Integer>> hm) {
-        int totalPixels=0;
-        for (int i : hm.keySet()) {
-            totalPixels += hm.get(i).size();
-        }
-        return totalPixels;
     }
 
     public void hueSliderChange() {

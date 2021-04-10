@@ -95,7 +95,7 @@
                         <image>
                            <Image url="@greyscaleicon.png" />
                         </image></ImageView>
-                     <Label prefHeight="56.0" prefWidth="253.0" stylesheets="@../stylesheet.css" text="GREYSCALE" textFill="WHITE">
+                     <Label prefHeight="56.0" prefWidth="253.0" stylesheets="@../stylesheet.css" text="BLACK &amp; WHITE" textFill="WHITE">
                         <font>
                            <Font name="Calibri Bold" size="16.0" />
                         </font>
@@ -170,6 +170,7 @@
                <URL value="@../stylesheet2.css" />
             </stylesheets>
          </Button>
+         <Button mnemonicParsing="false" onAction="#test" text="Button" />
         </children>
     </VBox>
    <BorderPane layoutX="275.0" layoutY="29.0" prefHeight="618.0" prefWidth="574.0" style="-fx-background-color: #e5dfe8;">

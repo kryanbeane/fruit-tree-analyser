@@ -169,13 +169,12 @@ public class Controller {
         }
     }
 
-    public void displayHashMap() {
-        Object[] a = fruitClusters.keySet().toArray();
-        for (Object o : a) {
+    public void displayHashMap(HashMap<Integer, Integer> hm) {
+        for (int i : hm.keySet()) {
             System.out.println("Root: ");
-            System.out.println(o);
-            System.out.println("Pixels in Cluster:");
-            System.out.println(fruitClusters.get(o));
+            System.out.println(i);
+            System.out.println("Rank:");
+            System.out.println(hm.get(i));
             System.out.println("-----------------------------------------");
         }
     }
@@ -382,6 +381,38 @@ public class Controller {
                 Tooltip.install(chosenImageView, tooltip);
             }
         pleaseClick.setVisible(false);
+    }
+
+    public HashMap<Integer, Integer> createSizeHashMap(HashMap<Integer, ArrayList<Integer>> hashMap) {
+        HashMap<Integer, Integer> newHM = new HashMap<>();
+        for(int i : hashMap.keySet()) {
+            newHM.put(i, hashMap.get(i).size());
+        }
+        return newHM;
+    }
+
+    public HashMap<Integer, Integer> sortByValue(HashMap<Integer, ArrayList<Integer>> hashMap) {
+        HashMap<Integer, Integer> hm = createSizeHashMap(hashMap);
+        List<HashMap.Entry<Integer, Integer>> list = new LinkedList<>(hm.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+        Collections.reverse(list);
+
+        HashMap<Integer, Integer> sortedHashMap = new LinkedHashMap<>();
+
+        for (HashMap.Entry<Integer, Integer> a : list) {
+            sortedHashMap.put(a.getKey(), a.getValue());
+        }
+        return sortedHashMap;
+    }
+
+    public HashMap<Integer, Integer> rankSetsBySize(HashMap<Integer, ArrayList<Integer>> hm) {
+        HashMap<Integer, Integer> sortedMap = sortByValue(hm);
+        int newSize = sortedMap.keySet().size();
+        for(int i : sortedMap.keySet()) {
+            sortedMap.replace(i, newSize);
+            newSize--;
+        }
+        return sortedMap;
     }
 
     public void hueSliderChange() {

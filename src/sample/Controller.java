@@ -4,7 +4,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-
 import java.util.*;
 import java.io.*;
 
@@ -16,13 +15,15 @@ public class Controller {
     Color pixelColor;
     Image img;
     public void fileChooser() throws FileNotFoundException {
-        FileChooser fc = new FileChooser();
-        fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG Files", "*.png"), new FileChooser.ExtensionFilter("JPEG Files", "*.jpg"));
-        File file = fc.showOpenDialog(null);
-        initializeImage(file);
-        setDifferences(360, 0.4, 0.3);
-        chosenImageView.setImage(img);
-        pleaseClick.setVisible(true);
+        try {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG Files", "*.png"), new FileChooser.ExtensionFilter("JPEG Files", "*.jpg"));
+            File file = fc.showOpenDialog(null);
+            initializeImage(file);
+            setDifferences(360, 0.4, 0.3);
+            chosenImageView.setImage(img);
+            pleaseClick.setVisible(true);
+        } catch (NullPointerException ignored) {}
     }
 
     int[] pixelArray;
@@ -48,20 +49,31 @@ public class Controller {
     Color selectedColor;
     double selectedHue, selectedSaturation, selectedBrightness;
     public void getColourAtMouseR(javafx.scene.input.MouseEvent mouseEvent) {
-        selectedColor = pr.getColor((int) mouseEvent.getX(), (int) mouseEvent.getY());
+        try {
+            if(chosenImageView!=null) {
+                selectedColor = pr.getColor((int)mouseEvent.getX(), (int)mouseEvent.getY());
+                setHSB();
+                if (greyImageView.getImage() != null)
+                    displayGreyImage();
+            }
+        } catch (Exception ignore) {}
+    }
+
+    public void setHSB() {
         selectedHue=selectedColor.getHue();
         selectedSaturation=selectedColor.getSaturation();
         selectedBrightness=selectedColor.getBrightness();
-        System.out.println(selectedColor.getRed() * 255 + " " + selectedColor.getGreen() * 255 + " " + selectedColor.getBlue() * 255);
-        if (greyImageView.getImage() != null) {
-            displayGreyImage();
-        }
     }
 
     Image gsImg;
     public void displayGreyImage() {
-        gsImg = greyscaleConversion();
-        greyImageView.setImage(gsImg);
+        try {
+            gsImg = greyscaleConversion();
+            greyImageView.setImage(gsImg);
+        } catch (Exception e) {
+            Alert a = createAlert("Uh oh..", "Choose an image first!");
+            a.show();
+        }
     }
 
     HashMap<Integer, ArrayList<Integer>> fruitClusters = new HashMap<>();
@@ -169,8 +181,8 @@ public class Controller {
     }
 
     public void displayArray() {
-        for(int x=0; x<pixelArray.length; x++) {
-            System.out.println(x + " " + pixelArray[x]);
+        for(int i : pixelArray) {
+            System.out.println(i + " " + pixelArray[i]);
         }
     }
 
@@ -262,10 +274,25 @@ public class Controller {
     }
 
     public void setPixelBorders() {
-        removeOutliers(fruitClusters);
-        for(int i : fruitClusters.keySet())
-            drawClusterBorder(i, fruitClusters, width);
-        chosenImageView.setImage(wi);
+        try {
+            removeOutliers(fruitClusters);
+            for(int i : fruitClusters.keySet())
+                drawClusterBorder(i, fruitClusters, width);
+            chosenImageView.setImage(wi);
+        }
+        catch (Exception e) {
+            Alert a = createAlert("Uh oh..", "Convert your image to black and white first!");
+            a.show();
+        }
+    }
+
+    public Alert createAlert(String title, String header) {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setTitle(title);
+        a.setHeaderText(header);
+        ImageView imageView = new ImageView(new Image(String.valueOf(getClass().getResource("/resources/warning.png"))));
+        a.setGraphic(imageView);
+        return a;
     }
 
     public ArrayList<Integer> createSortedSizeArray(HashMap<Integer, ArrayList<Integer>> hm) {
@@ -354,6 +381,7 @@ public class Controller {
                 tooltip.setText("Fruit/Cluster number: " + "#1" + "\n" + "Estimated size (pixel units): " + fruitClusters.get(root).size());
                 Tooltip.install(chosenImageView, tooltip);
             }
+        pleaseClick.setVisible(false);
     }
 
     public void hueSliderChange() {
@@ -379,10 +407,6 @@ public class Controller {
         saturationSlider.setValue(0.5);
         brightnessSlider.setValue(0.5);
         pleaseClick.setVisible(false);
-    }
-
-    public void exit() {
-        System.exit(0);
     }
 
 }

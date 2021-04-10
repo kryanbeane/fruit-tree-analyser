@@ -172,11 +172,6 @@
          </Button>
         </children>
     </VBox>
-    <Button alignment="CENTER" contentDisplay="CENTER" graphicTextGap="0.0" maxHeight="27.0" maxWidth="24.0" minHeight="21.0" minWidth="24.0" mnemonicParsing="false" onAction="#exit" prefHeight="21.0" prefWidth="24.0" style="-fx-background-color: #e5dfe8;" stylesheets="@../stylesheet.css" text="X" textFill="#8b52d9" AnchorPane.bottomAnchor="621.0" AnchorPane.leftAnchor="818.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
-        <font>
-            <Font name="System Bold" size="10.0" />
-        </font>
-    </Button>
    <BorderPane layoutX="275.0" layoutY="29.0" prefHeight="618.0" prefWidth="574.0" style="-fx-background-color: #e5dfe8;">
       <bottom>
          <VBox prefHeight="125.0" prefWidth="574.0" BorderPane.alignment="CENTER">

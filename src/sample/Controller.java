@@ -1,11 +1,11 @@
 package sample;
 import javafx.fxml.FXML;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
-import javafx.util.Duration;
-
+import javafx.scene.text.*;
 import java.util.*;
 import java.io.*;
 
@@ -13,6 +13,7 @@ public class Controller {
     @FXML ImageView chosenImageView, greyImageView;
     @FXML Slider hueSlider, saturationSlider, brightnessSlider;
     @FXML Label pleaseClick;
+    @FXML StackPane stack;
     int[] pixelArray;
     int width, height;
     double hueDifference, saturationDifference, brightnessDifference;
@@ -72,7 +73,8 @@ public class Controller {
         try {
             gsImg = greyscaleConversion();
             greyImageView.setImage(gsImg);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Alert a = createAlert("", "");
             if (img==null) {
                 a=createAlert("Uh oh..", "Choose an image first!");
@@ -271,7 +273,11 @@ public class Controller {
             chosenImageView.setImage(wi);
         }
         catch (Exception e) {
-            Alert a = createAlert("Uh oh..", "Convert your image to black and white first!");
+            Alert a=createAlert("", "");
+            if(img==null)
+                a=createAlert("Uh oh..", "Choose an image first!");
+            else if(gsImg == null)
+                a=createAlert("Uh oh..", "Convert image to black and white first!");
             a.show();
         }
     }
@@ -371,7 +377,6 @@ public class Controller {
                     Tooltip tooltip = new Tooltip();
                     int rank = getClusterSizeRank(root, fruitClusters);
                     tooltip.setText("Fruit/Cluster number: " + rank + "\n" + "Estimated size (pixel units): " + fruitClusters.get(root).size());
-                    tooltip.setShowDuration(new Duration(250));
                     Tooltip.install(chosenImageView, tooltip);
                 }
         } catch (Exception ignore) {}
@@ -393,7 +398,6 @@ public class Controller {
         HashMap<Integer, Integer> hm = createSizeHashMap(hashMap);
         List<HashMap.Entry<Integer, Integer>> list = new LinkedList<>(hm.entrySet());
         list.sort(Map.Entry.comparingByValue());
-        Collections.reverse(list);
 
         HashMap<Integer, Integer> sortedHashMap = new LinkedHashMap<>();
 
@@ -411,6 +415,19 @@ public class Controller {
             newSize--;
         }
         return sortedMap;
+    }
+
+    public void onscreenSizeOrders() {
+        HashMap<Integer, Integer> a = rankSetsBySize(fruitClusters);
+        for(int i : a.keySet()) {
+            Font font = Font.font("Brush Script MT", FontWeight.BOLD, FontPosture.REGULAR, 15);
+            Label label = new Label(a.get(i).toString());
+            label.setTextFill(Color.WHITE);
+            label.setFont(font);
+            stack.getChildren().add(label);
+            label.setTranslateX(calcXFromIndex(i, width)-(width >> 1));
+            label.setTranslateY(calcYFromIndex(i, width)-(width >> 1));
+        }
     }
 
     public void hueSliderChange() {

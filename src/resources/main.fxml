@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.net.URL?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -136,87 +137,20 @@
                </HBox>
             </graphic>
          </Button>
-         <Button mnemonicParsing="false" onAction="#reset" prefHeight="50.0" prefWidth="294.0" style="-fx-background-color: #6D597A;" textFill="WHITE">
-            <font>
-               <Font name="Calibri Bold" size="16.0" />
-            </font>
-            <VBox.margin>
-               <Insets left="8.0" right="8.0" top="8.0" />
-            </VBox.margin>
-            <graphic>
-               <HBox prefHeight="100.0" prefWidth="200.0" stylesheets="@../stylesheet.css">
-                  <children>
-                     <ImageView fitHeight="24.0" fitWidth="26.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@reseticon.png" />
-                        </image>
-                        <HBox.margin>
-                           <Insets bottom="8.0" left="24.0" top="8.0" />
-                        </HBox.margin>
-                     </ImageView>
-                     <Label prefHeight="56.0" prefWidth="253.0" text="RESET" textFill="WHITE">
-                        <font>
-                           <Font name="Calibri Bold" size="16.0" />
-                        </font>
-                        <HBox.margin>
-                           <Insets left="16.0" />
-                        </HBox.margin>
-                     </Label>
-                  </children>
-               </HBox>
-            </graphic>
-            <stylesheets>
-               <URL value="@../stylesheet.css" />
-               <URL value="@../stylesheet2.css" />
-            </stylesheets>
-         </Button>
         </children>
     </VBox>
    <BorderPane layoutX="275.0" layoutY="29.0" prefHeight="618.0" prefWidth="574.0" style="-fx-background-color: #e5dfe8;">
-      <bottom>
-         <VBox prefHeight="125.0" prefWidth="574.0" BorderPane.alignment="CENTER">
-            <children>
-               <Label alignment="CENTER" prefHeight="17.0" prefWidth="295.0" text="Hue">
-                  <VBox.margin>
-                     <Insets left="312.0" right="32.0" />
-                  </VBox.margin>
-               </Label>
-               <Slider fx:id="hueSlider" blockIncrement="1.0E-4" max="360.0" onMouseClicked="#hueSliderChange" onMouseDragged="#hueSliderChange">
-                  <VBox.margin>
-                     <Insets left="308.0" right="32.0" />
-                  </VBox.margin>
-               </Slider>
-               <Label alignment="CENTER" prefHeight="17.0" prefWidth="295.0" text="Saturation">
-                  <VBox.margin>
-                     <Insets left="312.0" right="32.0" top="8.0" />
-                  </VBox.margin>
-               </Label>
-               <Slider fx:id="saturationSlider" blockIncrement="1.0E-4" max="1.0" onMouseClicked="#saturationSliderChange" onMouseDragged="#saturationSliderChange" value="0.5">
-                  <VBox.margin>
-                     <Insets left="308.0" right="32.0" />
-                  </VBox.margin>
-               </Slider>
-               <Label alignment="CENTER" prefHeight="17.0" prefWidth="285.0" text="Brightness">
-                  <VBox.margin>
-                     <Insets left="312.0" right="32.0" top="8.0" />
-                  </VBox.margin>
-               </Label>
-               <Slider fx:id="brightnessSlider" blockIncrement="1.0E-4" max="1.0" onMouseClicked="#brightnessSliderChange" onMouseDragged="#brightnessSliderChange" value="0.5">
-                  <VBox.margin>
-                     <Insets left="308.0" right="32.0" />
-                  </VBox.margin>
-               </Slider>
-            </children>
-         </VBox>
-      </bottom>
       <left>
-         <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <VBox prefHeight="382.0" prefWidth="286.0" BorderPane.alignment="CENTER">
             <children>
-               <ImageView fx:id="chosenImageView" fitHeight="250.0" fitWidth="250.0" onMouseClicked="#getColourAtMouse" onMouseMoved="#getClusterAtMouse" pickOnBounds="true" preserveRatio="true">
+               <StackPane fx:id="stack" prefHeight="150.0" prefWidth="200.0">
+                  <children>
+                     <ImageView fx:id="chosenImageView" fitHeight="250.0" fitWidth="250.0" onMouseClicked="#getColourAtMouse" onMouseMoved="#getClusterAtMouse" pickOnBounds="true" preserveRatio="true" />
+                  </children>
                   <VBox.margin>
                      <Insets bottom="12.0" left="24.0" right="12.0" top="24.0" />
                   </VBox.margin>
-               </ImageView>
+               </StackPane>
                <Label fx:id="pleaseClick" contentDisplay="CENTER" prefHeight="17.0" prefWidth="272.0" textAlignment="CENTER">
                   <VBox.margin>
                      <Insets left="24.0" right="24.0" />
@@ -225,17 +159,69 @@
          </VBox>
       </left>
       <top>
-         <HBox prefHeight="190.0" prefWidth="574.0" BorderPane.alignment="CENTER" />
+         <HBox prefHeight="115.0" prefWidth="574.0" BorderPane.alignment="CENTER" />
       </top>
       <right>
          <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-               <ImageView fx:id="greyImageView" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true">
+               <StackPane prefHeight="150.0" prefWidth="200.0">
+                  <children>
+                     <ImageView fx:id="greyImageView" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                  </children>
                   <VBox.margin>
-                     <Insets bottom="24.0" left="12.0" right="24.0" top="24.0" />
+                     <Insets bottom="12.0" left="24.0" right="12.0" top="24.0" />
                   </VBox.margin>
-               </ImageView>
+               </StackPane>
             </children>
          </VBox>
-      </right></BorderPane>
+      </right>
+      <bottom>
+         <HBox prefHeight="173.0" prefWidth="574.0" BorderPane.alignment="CENTER">
+            <children>
+               <VBox prefHeight="173.0" prefWidth="485.0">
+                  <children>
+                     <RadioButton mnemonicParsing="false" onAction="#onscreenSizeOrders" text="Show Cluster Orders">
+                        <VBox.margin>
+                           <Insets left="32.0" top="24.0" />
+                        </VBox.margin>
+                     </RadioButton>
+                  </children>
+               </VBox>
+               <VBox prefHeight="173.0" prefWidth="470.0">
+                  <children>
+                     <Label alignment="CENTER" prefHeight="17.0" prefWidth="295.0" text="Hue">
+                        <VBox.margin>
+                           <Insets left="24.0" right="32.0" top="24.0" />
+                        </VBox.margin>
+                     </Label>
+                     <Slider fx:id="hueSlider" blockIncrement="1.0E-4" max="360.0" onMouseClicked="#hueSliderChange" onMouseDragged="#hueSliderChange">
+                        <VBox.margin>
+                           <Insets left="24.0" right="32.0" />
+                        </VBox.margin>
+                     </Slider>
+                     <Label alignment="CENTER" prefHeight="17.0" prefWidth="295.0" text="Saturation">
+                        <VBox.margin>
+                           <Insets left="24.0" right="32.0" top="8.0" />
+                        </VBox.margin>
+                     </Label>
+                     <Slider fx:id="saturationSlider" blockIncrement="1.0E-4" max="1.0" onMouseClicked="#saturationSliderChange" onMouseDragged="#saturationSliderChange" value="0.5">
+                        <VBox.margin>
+                           <Insets left="24.0" right="32.0" />
+                        </VBox.margin>
+                     </Slider>
+                     <Label alignment="CENTER" prefHeight="17.0" prefWidth="285.0" text="Brightness">
+                        <VBox.margin>
+                           <Insets left="24.0" right="32.0" top="8.0" />
+                        </VBox.margin>
+                     </Label>
+                     <Slider fx:id="brightnessSlider" blockIncrement="1.0E-4" max="1.0" onMouseClicked="#brightnessSliderChange" onMouseDragged="#brightnessSliderChange" value="0.5">
+                        <VBox.margin>
+                           <Insets left="24.0" right="32.0" />
+                        </VBox.margin>
+                     </Slider>
+                  </children>
+               </VBox>
+            </children>
+         </HBox>
+      </bottom></BorderPane>
 </AnchorPane>

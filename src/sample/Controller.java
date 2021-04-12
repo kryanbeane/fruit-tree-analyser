@@ -4,6 +4,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
+import javafx.util.Duration;
+
 import java.util.*;
 import java.io.*;
 
@@ -11,9 +13,15 @@ public class Controller {
     @FXML ImageView chosenImageView, greyImageView;
     @FXML Slider hueSlider, saturationSlider, brightnessSlider;
     @FXML Label pleaseClick;
+    int[] pixelArray;
+    int width, height;
+    double hueDifference, saturationDifference, brightnessDifference;
+    double selectedHue, selectedSaturation, selectedBrightness;
+    Image img, gsImg;
+    Color pixelColor, selectedColor;
+    PixelReader pr, gsPr; PixelWriter pw, gsPw; WritableImage wi, gsWi;
+    HashMap<Integer, ArrayList<Integer>> fruitClusters = new HashMap<>();
 
-    Color pixelColor;
-    Image img;
     public void fileChooser() throws FileNotFoundException {
         try {
             FileChooser fc = new FileChooser();
@@ -22,13 +30,10 @@ public class Controller {
             initializeImage(file);
             setDifferences(360, 0.4, 0.3);
             chosenImageView.setImage(img);
-            pleaseClick.setVisible(true);
+            pleaseClick.setText("Click a fruit to select its color!");
         } catch (NullPointerException ignored) {}
     }
 
-    int[] pixelArray;
-    int width, height;
-    PixelReader pr;PixelWriter pw; WritableImage wi;
     public void initializeImage(File file) throws FileNotFoundException {
         img = new Image(new FileInputStream(file), (int)chosenImageView.getFitWidth(), (int)chosenImageView.getFitHeight(), false, true);
         width = (int)img.getWidth();
@@ -39,15 +44,12 @@ public class Controller {
         pixelArray = new int[width*height];
     }
 
-    double hueDifference, saturationDifference, brightnessDifference;
     public void setDifferences(double newHue, double newSaturation, double newBrightness) {
         hueDifference=newHue;
         saturationDifference=newSaturation;
         brightnessDifference=newBrightness;
     }
 
-    Color selectedColor;
-    double selectedHue, selectedSaturation, selectedBrightness;
     public void getColourAtMouseR(javafx.scene.input.MouseEvent mouseEvent) {
         try {
             if(chosenImageView!=null) {
@@ -55,6 +57,7 @@ public class Controller {
                 setHSB();
                 if (greyImageView.getImage() != null)
                     displayGreyImage();
+                pleaseClick.setText("");
             }
         } catch (Exception ignore) {}
     }
@@ -65,18 +68,21 @@ public class Controller {
         selectedBrightness=selectedColor.getBrightness();
     }
 
-    Image gsImg;
     public void displayGreyImage() {
+        Alert a = createAlert("Uh oh..", "Something went wrong!");
         try {
             gsImg = greyscaleConversion();
             greyImageView.setImage(gsImg);
         } catch (Exception e) {
-            Alert a = createAlert("Uh oh..", "Choose an image first!");
+            if (img==null) {
+                a=createAlert("Uh oh..", "Choose an image first!");
+            } else if (selectedColor==null) {
+                a=createAlert("Uh oh..", "Click a fruit first!");
+            }
             a.show();
         }
     }
 
-    HashMap<Integer, ArrayList<Integer>> fruitClusters = new HashMap<>();
     public Image greyscaleConversion() {
         initializeBlackWhiteImg();
         if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 1)
@@ -94,7 +100,6 @@ public class Controller {
         return 2;
     }
 
-    PixelReader gsPr; PixelWriter gsPw; WritableImage gsWi;
     public void initializeBlackWhiteImg() {
         gsImg=img;
         gsPr=gsImg.getPixelReader();
@@ -274,7 +279,8 @@ public class Controller {
 
     public void setPixelBorders() {
         try {
-            removeOutliers(fruitClusters);
+            if(fruitClusters.size()>3)
+                removeOutliers(fruitClusters);
             for(int i : fruitClusters.keySet())
                 drawClusterBorder(i, fruitClusters, width);
             chosenImageView.setImage(wi);
@@ -372,15 +378,22 @@ public class Controller {
     }
 
     public void getClusterAtMouse(javafx.scene.input.MouseEvent event) {
-        int x = (int)event.getX(), y = (int)event.getY();
-        if(gsImg!=null)
-            if(pixelIsWhite(pixelArray, calculateArrayPosition(y, x, width))) {
-                int root = DisjointSet.find(pixelArray, calculateArrayPosition(y, x, width));
-                Tooltip tooltip = new Tooltip();
-                tooltip.setText("Fruit/Cluster number: " + "#1" + "\n" + "Estimated size (pixel units): " + fruitClusters.get(root).size());
-                Tooltip.install(chosenImageView, tooltip);
-            }
-        pleaseClick.setVisible(false);
+        try {
+            int x=(int)event.getX(), y=(int)event.getY();
+            if(gsImg!=null)
+                if(pixelIsWhite(pixelArray, calculateArrayPosition(y, x, width))) {
+                    int root = DisjointSet.find(pixelArray, calculateArrayPosition(y, x, width));
+                    Tooltip tooltip = new Tooltip();
+                    int rank = getClusterSizeRank(root, fruitClusters);
+                    tooltip.setText("Fruit/Cluster number: " + rank + "\n" + "Estimated size (pixel units): " + fruitClusters.get(root).size());
+                    tooltip.setShowDuration(new Duration(250));
+                    Tooltip.install(chosenImageView, tooltip);
+                }
+        } catch (Exception ignore) {}
+    }
+
+    public int getClusterSizeRank(int root, HashMap<Integer, ArrayList<Integer>> hm) {
+        return rankSetsBySize(hm).get(root);
     }
 
     public HashMap<Integer, Integer> createSizeHashMap(HashMap<Integer, ArrayList<Integer>> hashMap) {

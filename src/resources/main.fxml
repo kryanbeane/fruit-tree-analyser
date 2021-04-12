@@ -170,7 +170,6 @@
                <URL value="@../stylesheet2.css" />
             </stylesheets>
          </Button>
-         <Button mnemonicParsing="false" onAction="#test" text="Button" />
         </children>
     </VBox>
    <BorderPane layoutX="275.0" layoutY="29.0" prefHeight="618.0" prefWidth="574.0" style="-fx-background-color: #e5dfe8;">
@@ -218,11 +217,10 @@
                      <Insets bottom="12.0" left="24.0" right="12.0" top="24.0" />
                   </VBox.margin>
                </ImageView>
-               <Label fx:id="pleaseClick" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="294.0" text="Please click on a fruit to select its colour! " visible="false">
+               <Label fx:id="pleaseClick" contentDisplay="CENTER" prefHeight="17.0" prefWidth="272.0" textAlignment="CENTER">
                   <VBox.margin>
-                     <Insets bottom="4.0" left="24.0" right="12.0" />
-                  </VBox.margin>
-               </Label>
+                     <Insets left="24.0" right="24.0" />
+                  </VBox.margin></Label>
             </children>
          </VBox>
       </left>

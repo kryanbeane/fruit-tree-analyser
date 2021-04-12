@@ -24,6 +24,7 @@ public class Controller {
 
     public void fileChooser() throws FileNotFoundException {
         try {
+            reset();
             FileChooser fc = new FileChooser();
             fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG Files", "*.png"), new FileChooser.ExtensionFilter("JPEG Files", "*.jpg"));
             File file = fc.showOpenDialog(null);
@@ -41,7 +42,6 @@ public class Controller {
         pr=img.getPixelReader();
         wi=new WritableImage(pr, width, height);
         pw=wi.getPixelWriter();
-        pixelArray = new int[width*height];
     }
 
     public void setDifferences(double newHue, double newSaturation, double newBrightness) {
@@ -50,7 +50,7 @@ public class Controller {
         brightnessDifference=newBrightness;
     }
 
-    public void getColourAtMouseR(javafx.scene.input.MouseEvent mouseEvent) {
+    public void getColourAtMouse(javafx.scene.input.MouseEvent mouseEvent) {
         try {
             if(chosenImageView!=null) {
                 selectedColor = pr.getColor((int)mouseEvent.getX(), (int)mouseEvent.getY());
@@ -69,11 +69,11 @@ public class Controller {
     }
 
     public void displayGreyImage() {
-        Alert a = createAlert("Uh oh..", "Something went wrong!");
         try {
             gsImg = greyscaleConversion();
             greyImageView.setImage(gsImg);
         } catch (Exception e) {
+            Alert a = createAlert("", "");
             if (img==null) {
                 a=createAlert("Uh oh..", "Choose an image first!");
             } else if (selectedColor==null) {
@@ -89,18 +89,17 @@ public class Controller {
             biggerRedFruitRecog();
         else if (decideRGB(selectedColor.getRed(), selectedColor.getGreen(), selectedColor.getBlue()) == 2)
             biggerBlueFruitRecog();
-
-        unionFruitPixels(pixelArray, width, height);
-        createHashMap(pixelArray, fruitClusters);
         return gsWi;
     }
 
     public int decideRGB(double r, double g, double b) {
-        if (r > g && r > b) return 1;
-        return 2;
+        if (r > g && r > b)
+            return 1;
+        else return 2;
     }
 
     public void initializeBlackWhiteImg() {
+        pixelArray=new int[width*height];
         gsImg=img;
         gsPr=gsImg.getPixelReader();
         gsWi=new WritableImage(gsPr, width, height);
@@ -108,33 +107,33 @@ public class Controller {
     }
 
     public void biggerRedFruitRecog() {
-        for (int x=0; x<width; x++) {
-            for (int y=0; y<height; y++) {
+        for (int x = 0; x < width; x++)
+            for (int y = 0; y < height; y++) {
                 pixelColor = gsPr.getColor(x, y);
-                if (compareHSB() && pixelColor.getRed()>pixelColor.getBlue() && pixelColor.getRed()>pixelColor.getGreen()) {
-                    gsPw.setColor(x, y, Color.valueOf("#ffffff"));
-                    addFruitToArray(y, x);
-                } else {
-                    gsPw.setColor(x, y, Color.valueOf("#000000"));
-                    addNonFruitToArray(y, x);
+                if (compareHSB() && pixelColor.getRed() > pixelColor.getBlue() && pixelColor.getRed() > pixelColor.getGreen()) {
+                    gsPw.setColor(x, y, Color.WHITE);
+                    addFruitToArray(y,x);
+            }
+                else {
+                    gsPw.setColor(x, y, Color.BLACK);
+                    addNonFruitToArray(y,x);
                 }
             }
-        }
     }
 
     public void biggerBlueFruitRecog() {
-        for (int x = 0; x < width; x++) {
+        for (int x = 0; x < width; x++)
             for (int y = 0; y < height; y++) {
                 pixelColor = gsPr.getColor(x, y);
                 if (compareHSB() && pixelColor.getRed() < pixelColor.getBlue() && pixelColor.getGreen() < pixelColor.getBlue()) {
-                    gsPw.setColor(x, y, Color.valueOf("#ffffff"));
-                    addFruitToArray(y, x);
-                } else {
-                    gsPw.setColor(x, y, Color.valueOf("#000000"));
-                    addNonFruitToArray(y, x);
+                    gsPw.setColor(x, y, Color.WHITE);
+                    addFruitToArray(y,x);
+                }
+                else {
+                    gsPw.setColor(x, y, Color.BLACK);
+                    addNonFruitToArray(y,x);
                 }
             }
-        }
     }
 
     public void unionFruitPixels(int[] array, int width, int height) {
@@ -171,22 +170,6 @@ public class Controller {
                     hashMap.put(root, tmpList);
                 }
             }
-        }
-    }
-
-    public void displayHashMap(HashMap<Integer, Integer> hm) {
-        for (int i : hm.keySet()) {
-            System.out.println("Root: ");
-            System.out.println(i);
-            System.out.println("Rank:");
-            System.out.println(hm.get(i));
-            System.out.println("-----------------------------------------");
-        }
-    }
-
-    public void displayArray() {
-        for(int i : pixelArray) {
-            System.out.println(i + " " + pixelArray[i]);
         }
     }
 
@@ -279,6 +262,8 @@ public class Controller {
 
     public void setPixelBorders() {
         try {
+            unionFruitPixels(pixelArray, width, height);
+            createHashMap(pixelArray, fruitClusters);
             if(fruitClusters.size()>3)
                 removeOutliers(fruitClusters);
             for(int i : fruitClusters.keySet())
@@ -450,7 +435,7 @@ public class Controller {
         hueSlider.setValue(0);
         saturationSlider.setValue(0.5);
         brightnessSlider.setValue(0.5);
-        pleaseClick.setVisible(false);
+        pleaseClick.setText("");
     }
 
 }

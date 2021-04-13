@@ -145,6 +145,7 @@
             <children>
                <StackPane fx:id="stack" prefHeight="150.0" prefWidth="200.0">
                   <children>
+                     <StackPane fx:id="sizePane" prefHeight="150.0" prefWidth="200.0" />
                      <ImageView fx:id="chosenImageView" fitHeight="250.0" fitWidth="250.0" onMouseClicked="#getColourAtMouse" onMouseMoved="#getClusterAtMouse" pickOnBounds="true" preserveRatio="true" />
                   </children>
                   <VBox.margin>
@@ -180,7 +181,7 @@
             <children>
                <VBox prefHeight="173.0" prefWidth="485.0">
                   <children>
-                     <RadioButton mnemonicParsing="false" onAction="#onscreenSizeOrders" text="Show Cluster Orders">
+                     <RadioButton fx:id="radio" mnemonicParsing="false" onAction="#showOnScreenSizes" text="Show Cluster Orders">
                         <VBox.margin>
                            <Insets left="32.0" top="24.0" />
                         </VBox.margin>

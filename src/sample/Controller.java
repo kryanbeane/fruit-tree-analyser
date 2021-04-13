@@ -1,4 +1,6 @@
 package sample;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -13,7 +15,8 @@ public class Controller {
     @FXML ImageView chosenImageView, greyImageView;
     @FXML Slider hueSlider, saturationSlider, brightnessSlider;
     @FXML Label pleaseClick;
-    @FXML StackPane stack;
+    @FXML StackPane stack, sizePane;
+    @FXML RadioButton radio;
     int[] pixelArray;
     int width, height;
     double hueDifference, saturationDifference, brightnessDifference;
@@ -271,6 +274,7 @@ public class Controller {
             for(int i : fruitClusters.keySet())
                 drawClusterBorder(i, fruitClusters, width);
             chosenImageView.setImage(wi);
+            createSizePane();
         }
         catch (Exception e) {
             Alert a=createAlert("", "");
@@ -417,16 +421,22 @@ public class Controller {
         return sortedMap;
     }
 
-    public void onscreenSizeOrders() {
+    public void showOnScreenSizes() {
+        if(radio.isSelected())
+            sizePane.toFront();
+        else sizePane.toBack();
+    }
+
+    public void createSizePane() {
         HashMap<Integer, Integer> a = rankSetsBySize(fruitClusters);
-        for(int i : a.keySet()) {
-            Font font = Font.font("Brush Script MT", FontWeight.BOLD, FontPosture.REGULAR, 15);
+        for (int i : a.keySet()) {
+            Font font = Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 15);
             Label label = new Label(a.get(i).toString());
             label.setTextFill(Color.WHITE);
             label.setFont(font);
-            stack.getChildren().add(label);
-            label.setTranslateX(calcXFromIndex(i, width)-(width >> 1));
-            label.setTranslateY(calcYFromIndex(i, width)-(width >> 1));
+            sizePane.getChildren().add(label);
+            label.setTranslateX(calcXFromIndex(i, width) - (width >> 1)+5);
+            label.setTranslateY(calcYFromIndex(i, width) - (width >> 1));
         }
     }
 

@@ -21,7 +21,7 @@ public class Controller {
     int width, height;
     double hueDifference, saturationDifference, brightnessDifference;
     double selectedHue, selectedSaturation, selectedBrightness;
-    Image img, gsImg;
+    Image img, originalImg, gsImg;
     Color pixelColor, selectedColor;
     PixelReader pr, gsPr; PixelWriter pw, gsPw; WritableImage wi, gsWi;
     HashMap<Integer, ArrayList<Integer>> fruitClusters = new HashMap<>();
@@ -41,6 +41,7 @@ public class Controller {
 
     public void initializeImage(File file) throws FileNotFoundException {
         img = new Image(new FileInputStream(file), (int)chosenImageView.getFitWidth(), (int)chosenImageView.getFitHeight(), false, true);
+        originalImg=img;
         width = (int)img.getWidth();
         height = (int)img.getHeight();
         pr=img.getPixelReader();
@@ -266,7 +267,8 @@ public class Controller {
     }
 
     public void setPixelBorders() {
-        try {
+//        try {
+            img=originalImg;
             unionFruitPixels(pixelArray, width, height);
             createHashMap(pixelArray, fruitClusters);
             if(fruitClusters.size()>3)
@@ -275,15 +277,15 @@ public class Controller {
                 drawClusterBorder(i, fruitClusters, width);
             chosenImageView.setImage(wi);
             createSizePane();
-        }
-        catch (Exception e) {
-            Alert a=createAlert("", "");
-            if(img==null)
-                a=createAlert("Uh oh..", "Choose an image first!");
-            else if(gsImg == null)
-                a=createAlert("Uh oh..", "Convert image to black and white first!");
-            a.show();
-        }
+//        }
+//        catch (Exception e) {
+//            Alert a=createAlert("", "");
+//            if(chosenImageView.getImage()==null)
+//                a=createAlert("Uh oh..", "Choose an image first!");
+//            else if(gsImg == null)
+//                a=createAlert("Uh oh..", "Convert image to black and white first!");
+//            a.show();
+//        }
     }
 
     public Alert createAlert(String title, String header) {
@@ -430,13 +432,13 @@ public class Controller {
     public void createSizePane() {
         HashMap<Integer, Integer> a = rankSetsBySize(fruitClusters);
         for (int i : a.keySet()) {
-            Font font = Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 15);
+            Font font = Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 10);
             Label label = new Label(a.get(i).toString());
             label.setTextFill(Color.WHITE);
             label.setFont(font);
             sizePane.getChildren().add(label);
-            label.setTranslateX(calcXFromIndex(i, width) - (width >> 1)+5);
-            label.setTranslateY(calcYFromIndex(i, width) - (width >> 1));
+            label.setTranslateX(calcXFromIndex(i, width) - (width >> 1)+3);
+            label.setTranslateY(calcYFromIndex(i, width) - (width >> 1)+3);
         }
     }
 
@@ -463,6 +465,7 @@ public class Controller {
         saturationSlider.setValue(0.5);
         brightnessSlider.setValue(0.5);
         pleaseClick.setText("");
+        chosenImageView.toFront();
     }
 
 }

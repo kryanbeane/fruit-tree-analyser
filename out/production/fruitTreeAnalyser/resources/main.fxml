@@ -145,7 +145,7 @@
             <children>
                <StackPane fx:id="stack" prefHeight="150.0" prefWidth="200.0">
                   <children>
-                     <StackPane fx:id="sizePane" prefHeight="150.0" prefWidth="200.0" />
+                     <StackPane fx:id="sizePane" onMouseMoved="#getClusterAtMouse" prefHeight="150.0" prefWidth="200.0" />
                      <ImageView fx:id="chosenImageView" fitHeight="250.0" fitWidth="250.0" onMouseClicked="#getColourAtMouse" onMouseMoved="#getClusterAtMouse" pickOnBounds="true" preserveRatio="true" />
                   </children>
                   <VBox.margin>
@@ -155,7 +155,8 @@
                <Label fx:id="pleaseClick" contentDisplay="CENTER" prefHeight="17.0" prefWidth="272.0" textAlignment="CENTER">
                   <VBox.margin>
                      <Insets left="24.0" right="24.0" />
-                  </VBox.margin></Label>
+                  </VBox.margin>
+               </Label>
             </children>
          </VBox>
       </left>

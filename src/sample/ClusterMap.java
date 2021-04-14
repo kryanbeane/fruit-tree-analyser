@@ -98,4 +98,8 @@ public class ClusterMap {
         }
         return sortedMap;
     }
+
+    public int totalFruits() {
+        return map.keySet().size();
+    }
 }

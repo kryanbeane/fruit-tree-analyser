@@ -24,7 +24,7 @@ public class Controller {
     @FXML Button bwBut;
     @FXML AnchorPane noMenu;
     @FXML HBox menu, recogSettings, colorSettings;
-    @FXML TextField minClusterSize;
+    @FXML TextField minClusterSize , totalFruits;
     Color fruitColor;
     FruitImage fruitImage;
     BlackWhiteImage blackWhiteImage;
@@ -152,6 +152,7 @@ public class Controller {
                 fruitImage.drawClusterBorder(i, clusterMap.map);
             chosenImageView.setImage(fruitImage.editableImage);
             createSizePane();
+            totalFruits.setText(String.valueOf(clusterMap.totalFruits()));
         }
         catch (Exception e) {
             Alert a=createAlert("", "");
@@ -208,4 +209,5 @@ public class Controller {
             createAlert("Uh oh..", "Try converting an image first!");
         }
     }
+
 }

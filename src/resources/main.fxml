@@ -138,6 +138,11 @@
                </HBox>
             </graphic>
          </Button>
+         <TextField fx:id="totalFruits" alignment="CENTER" editable="false" promptText="Total Fruits / Clusters">
+            <VBox.margin>
+               <Insets bottom="4.0" left="64.0" right="64.0" top="250.0" />
+            </VBox.margin>
+         </TextField>
         </children>
     </VBox>
    <BorderPane layoutX="275.0" layoutY="29.0" prefHeight="618.0" prefWidth="574.0" style="-fx-background-color: #FFFFFF;">

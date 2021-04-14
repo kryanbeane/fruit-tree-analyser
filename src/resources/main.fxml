@@ -14,12 +14,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" style="-fx-background-color: #e5dfe8;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
-    <VBox maxHeight="650.0" maxWidth="275.0" minHeight="650.0" minWidth="275.0" prefHeight="650.0" prefWidth="275.0" style="-fx-background-color: #6D597A;">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+    <VBox maxHeight="650.0" maxWidth="277.0" minHeight="634.0" minWidth="270.0" prefHeight="634.0" prefWidth="277.0" style="-fx-background-color: #6200EE; -fx-background-radius: 8;" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="575.0" AnchorPane.topAnchor="8.0">
         <children>
             <HBox prefHeight="100.0" prefWidth="200.0">
                 <children>
-                    <ImageView fitHeight="209.0" fitWidth="149.0" pickOnBounds="true" preserveRatio="true">
+                    <ImageView fitHeight="149.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true">
                         <HBox.margin>
                             <Insets />
                         </HBox.margin>
@@ -29,7 +29,7 @@
                     </ImageView>
                     <VBox prefHeight="149.0" prefWidth="137.0">
                         <children>
-                            <Label prefHeight="31.0" prefWidth="126.0" text="Fruit Tree" textFill="WHITE">
+                            <Label prefHeight="31.0" prefWidth="97.0" text="Fruit Tree" textFill="WHITE">
                                 <font>
                                     <Font name="Calibri Bold" size="23.0" />
                                 </font>
@@ -49,7 +49,7 @@
                     <Insets bottom="8.0" right="8.0" top="8.0" />
                 </VBox.margin>
             </HBox>
-         <Button mnemonicParsing="false" onAction="#fileChooser" prefHeight="50.0" prefWidth="292.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
+         <Button mnemonicParsing="false" onAction="#fileChooser" prefHeight="50.0" prefWidth="292.0" style="-fx-background-color: #6200EE; -fx-background-radius: 8;" stylesheets="@../stylesheet2.css" textFill="WHITE">
             <font>
                <Font name="Calibri Bold" size="16.0" />
             </font>
@@ -76,10 +76,10 @@
                </HBox>
             </graphic>
             <VBox.margin>
-               <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
+               <Insets bottom="4.0" left="8.0" right="8.0" top="8.0" />
             </VBox.margin>
          </Button>
-         <Button mnemonicParsing="false" onAction="#displayGreyImage" prefHeight="50.0" prefWidth="292.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
+         <Button fx:id="bwBut" mnemonicParsing="false" onAction="#displayBlackWhiteImage" prefHeight="50.0" prefWidth="292.0" style="-fx-background-color: #6200EE; -fx-background-radius: 8;" stylesheets="@../stylesheet2.css" textFill="WHITE">
             <font>
                <Font name="Calibri Bold" size="16.0" />
             </font>
@@ -108,7 +108,7 @@
                </HBox>
             </graphic>
          </Button>
-         <Button mnemonicParsing="false" onAction="#setPixelBorders" prefHeight="50.0" prefWidth="314.0" style="-fx-background-color: #6D597A;" stylesheets="@../stylesheet2.css" textFill="WHITE">
+         <Button mnemonicParsing="false" onAction="#setPixelBorders" prefHeight="50.0" prefWidth="314.0" style="-fx-background-color: #6200EE #6200EE; -fx-background-radius: 8;" stylesheets="@../stylesheet2.css" textFill="WHITE">
             <font>
                <Font name="Calibri Bold" size="16.0" />
             </font>
@@ -139,24 +139,27 @@
          </Button>
         </children>
     </VBox>
-   <BorderPane layoutX="275.0" layoutY="29.0" prefHeight="618.0" prefWidth="574.0" style="-fx-background-color: #e5dfe8;">
+   <BorderPane layoutX="275.0" layoutY="29.0" prefHeight="618.0" prefWidth="574.0" style="-fx-background-color: #FFFFFF;">
       <left>
          <VBox prefHeight="382.0" prefWidth="286.0" BorderPane.alignment="CENTER">
             <children>
-               <StackPane fx:id="stack" prefHeight="150.0" prefWidth="200.0">
+               <Label fx:id="yourImage" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="361.0" text="Your Image" textAlignment="CENTER" visible="false">
+                  <font>
+                     <Font name="Calibri Bold" size="20.0" />
+                  </font>
+                  <VBox.margin>
+                     <Insets left="12.0" right="24.0" />
+                  </VBox.margin>
+               </Label>
+               <StackPane fx:id="stack" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="250.0" prefWidth="250.0" style="-fx-background-radius: 8;">
                   <children>
-                     <StackPane fx:id="sizePane" onMouseMoved="#getClusterAtMouse" prefHeight="150.0" prefWidth="200.0" />
+                     <StackPane fx:id="sizePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseMoved="#getClusterAtMouse" prefHeight="250.0" prefWidth="250.0" />
                      <ImageView fx:id="chosenImageView" fitHeight="250.0" fitWidth="250.0" onMouseClicked="#getColourAtMouse" onMouseMoved="#getClusterAtMouse" pickOnBounds="true" preserveRatio="true" />
                   </children>
                   <VBox.margin>
-                     <Insets bottom="12.0" left="24.0" right="12.0" top="24.0" />
+                     <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
                   </VBox.margin>
                </StackPane>
-               <Label fx:id="pleaseClick" contentDisplay="CENTER" prefHeight="17.0" prefWidth="272.0" textAlignment="CENTER">
-                  <VBox.margin>
-                     <Insets left="24.0" right="24.0" />
-                  </VBox.margin>
-               </Label>
             </children>
          </VBox>
       </left>
@@ -166,12 +169,20 @@
       <right>
          <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-               <StackPane prefHeight="150.0" prefWidth="200.0">
+               <Label fx:id="bwVersion" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="372.0" text="Black and White Version" textAlignment="CENTER" visible="false">
+                  <font>
+                     <Font name="Calibri Bold" size="20.0" />
+                  </font>
+                  <VBox.margin>
+                     <Insets left="24.0" right="12.0" />
+                  </VBox.margin>
+               </Label>
+               <StackPane prefHeight="250.0" prefWidth="250.0" style="-fx-background-radius: 8;">
                   <children>
-                     <ImageView fx:id="greyImageView" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                     <ImageView fx:id="blackWhiteImageView" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
                   </children>
                   <VBox.margin>
-                     <Insets bottom="12.0" left="24.0" right="12.0" top="24.0" />
+                     <Insets bottom="12.0" left="24.0" right="12.0" top="12.0" />
                   </VBox.margin>
                </StackPane>
             </children>
@@ -196,7 +207,7 @@
                            <Insets left="24.0" right="32.0" top="24.0" />
                         </VBox.margin>
                      </Label>
-                     <Slider fx:id="hueSlider" blockIncrement="1.0E-4" max="360.0" onMouseClicked="#hueSliderChange" onMouseDragged="#hueSliderChange">
+                     <Slider fx:id="hueSlider" blockIncrement="1.0E-4" max="360.0">
                         <VBox.margin>
                            <Insets left="24.0" right="32.0" />
                         </VBox.margin>
@@ -206,7 +217,7 @@
                            <Insets left="24.0" right="32.0" top="8.0" />
                         </VBox.margin>
                      </Label>
-                     <Slider fx:id="saturationSlider" blockIncrement="1.0E-4" max="1.0" onMouseClicked="#saturationSliderChange" onMouseDragged="#saturationSliderChange" value="0.5">
+                     <Slider fx:id="saturationSlider" blockIncrement="1.0E-4" max="1.0" value="0.5">
                         <VBox.margin>
                            <Insets left="24.0" right="32.0" />
                         </VBox.margin>
@@ -216,7 +227,7 @@
                            <Insets left="24.0" right="32.0" top="8.0" />
                         </VBox.margin>
                      </Label>
-                     <Slider fx:id="brightnessSlider" blockIncrement="1.0E-4" max="1.0" onMouseClicked="#brightnessSliderChange" onMouseDragged="#brightnessSliderChange" value="0.5">
+                     <Slider fx:id="brightnessSlider" blockIncrement="1.0E-4" max="1.0" value="0.5">
                         <VBox.margin>
                            <Insets left="24.0" right="32.0" />
                         </VBox.margin>

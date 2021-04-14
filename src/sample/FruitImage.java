@@ -64,11 +64,16 @@ public class FruitImage {
             pw.setColor(leftX, y, Color.BLUE);
     }
 
+    public void setEditableImage(Image editableImage) {
+        this.editableImage = editableImage;
+    }
+
     public void resetEditableImage() {
         editableImage = originalImage;
         pr = editableImage.getPixelReader();
         wi = new WritableImage(pr, width, height);
         pw = wi.getPixelWriter();
     }
+
 
 }

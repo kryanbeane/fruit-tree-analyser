@@ -15,7 +15,9 @@ import java.util.*;
 import java.io.*;
 
 public class Controller {
-    @FXML ImageView chosenImageView, blackWhiteImageView;
+    @FXML ImageView chosenImageView;
+    @FXML
+    ImageView blackWhiteImageView;
     @FXML Slider hueSlider, saturationSlider, brightnessSlider;
     @FXML Label yourImage, bwVersion;
     @FXML StackPane stack, sizePane;
@@ -27,7 +29,7 @@ public class Controller {
     FruitImage fruitImage;
     BlackWhiteImage blackWhiteImage;
     ClusterMap clusterMap;
-    Boolean sizesAreShown = false;
+    Boolean sizesAreShown=false;
 
     public void fileChooser() throws FileNotFoundException {
         try {
@@ -100,7 +102,7 @@ public class Controller {
     }
 
     public void initialiseBlackWhiteImage() {
-        blackWhiteImage = new BlackWhiteImage(fruitImage.originalImage, fruitColor, fruitImage.width, fruitImage.height);
+        blackWhiteImage = new BlackWhiteImage(fruitImage.editableImage, fruitColor, fruitImage.width, fruitImage.height);
     }
 
     public Alert createAlert(String title, String header) {
@@ -178,40 +180,25 @@ public class Controller {
         colorSettings.setVisible(true);
     }
 
-    public void adjustHue() {
-        try {
-            if(blackWhiteImageView!=null && chosenImageView.getImage()==fruitImage.editableImage) {
-                ColorAdjust colorAdjust = new ColorAdjust();
-                colorAdjust.setHue(hueSlider.getValue());
-                chosenImageView.setEffect(colorAdjust);
-                displayBlackWhiteImage();
+    public void editImagePixels(ColorAdjust colorAdjust) {
+        for(int y=0; y<fruitImage.width; y++)
+            for(int x=0; x<fruitImage.width; x++) {
+                Color c = fruitImage.pr.getColor(x, y);
+                c = c.deriveColor(colorAdjust.getHue(), colorAdjust.getSaturation(), colorAdjust.getBrightness(), 1);
+                fruitImage.pw.setColor(x, y, c);
             }
-        } catch (Exception e) {
-            createAlert("Uh oh..", "Try converting an image first!");
-        }
     }
 
-    public void adjustSaturation() {
+    public void sliderAdjustments() {
         try {
-            if(blackWhiteImageView!=null && chosenImageView.getImage()==fruitImage.editableImage) {
-                ColorAdjust colorAdjust = new ColorAdjust();
-                colorAdjust.setSaturation(saturationSlider.getValue());
-                chosenImageView.setEffect(colorAdjust);
-                displayBlackWhiteImage();
-            }
-        } catch (Exception e) {
-            createAlert("Uh oh..", "Try converting an image first!");
-        }
-    }
-
-    public void adjustBrightness() {
-        try {
-            if(blackWhiteImageView!=null && chosenImageView.getImage()==fruitImage.editableImage) {
-                ColorAdjust colorAdjust = new ColorAdjust();
-                colorAdjust.setBrightness(brightnessSlider.getValue());
-                chosenImageView.setEffect(colorAdjust);
-                displayBlackWhiteImage();
-            }
+            ColorAdjust colorAdjust = new ColorAdjust();
+            colorAdjust.setHue(hueSlider.getValue());
+            colorAdjust.setSaturation(saturationSlider.getValue());
+            colorAdjust.setBrightness(brightnessSlider.getValue());
+            editImagePixels(colorAdjust);
+            fruitImage.setEditableImage(fruitImage.wi);
+            chosenImageView.setImage(fruitImage.editableImage);
+            displayBlackWhiteImage();
         } catch (Exception e) {
             createAlert("Uh oh..", "Try converting an image first!");
         }

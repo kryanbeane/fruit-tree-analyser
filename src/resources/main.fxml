@@ -219,7 +219,7 @@
                                        <Insets left="4.0" right="4.0" top="12.0" />
                                     </VBox.margin>
                                  </Label>
-                                 <Slider fx:id="hueSlider" blockIncrement="1.0E-4" max="1.0" onMouseDragged="#adjustHue">
+                                 <Slider fx:id="hueSlider" blockIncrement="1.0" max="360.0" onMouseDragged="#sliderAdjustments" value="360.0">
                                     <VBox.margin>
                                        <Insets bottom="4.0" left="4.0" right="4.0" />
                                     </VBox.margin>
@@ -229,7 +229,7 @@
                                        <Font name="Calibri Bold" size="14.0" />
                                     </font>
                                  </Label>
-                                 <Slider fx:id="saturationSlider" blockIncrement="1.0E-4" max="1.0" onMouseDragged="#adjustSaturation">
+                                 <Slider fx:id="saturationSlider" blockIncrement="1.0E-4" max="1.0" onMouseDragged="#sliderAdjustments" value="1.0">
                                     <VBox.margin>
                                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                                     </VBox.margin>
@@ -242,7 +242,7 @@
                                        <Insets top="4.0" />
                                     </VBox.margin>
                                  </Label>
-                                 <Slider fx:id="brightnessSlider" blockIncrement="1.0E-4" max="1.0" onMouseDragged="#adjustBrightness">
+                                 <Slider fx:id="brightnessSlider" blockIncrement="1.0E-4" max="1.0" onMouseDragged="#sliderAdjustments" value="1.0">
                                     <VBox.margin>
                                        <Insets left="4.0" right="4.0" />
                                     </VBox.margin>

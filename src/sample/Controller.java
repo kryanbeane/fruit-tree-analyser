@@ -16,15 +16,15 @@ import java.io.*;
 
 public class Controller {
     @FXML ImageView chosenImageView;
-    @FXML
-    ImageView blackWhiteImageView;
+    @FXML ImageView blackWhiteImageView;
     @FXML Slider hueSlider, saturationSlider, brightnessSlider;
-    @FXML Label yourImage, bwVersion;
+    @FXML Label yourImage, bwVersion, start;
     @FXML StackPane stack, sizePane;
-    @FXML RadioButton radio;
+    @FXML RadioButton radio, outliers;
     @FXML Button bwBut;
     @FXML AnchorPane noMenu;
     @FXML HBox menu, recogSettings, colorSettings;
+    @FXML TextField minClusterSize;
     Color fruitColor;
     FruitImage fruitImage;
     BlackWhiteImage blackWhiteImage;
@@ -41,6 +41,7 @@ public class Controller {
             chosenImageView.setImage(fruitImage.originalImage);
             yourImage.setVisible(true);
             createTooltip(bwBut, "Try clicking different areas of the" + "\n fruit to get better conversions!");
+            start.setVisible(true);
         } catch (NullPointerException ignored) {}
     }
 
@@ -58,11 +59,15 @@ public class Controller {
         yourImage.setVisible(false);
         chosenImageView.setImage(null);
         blackWhiteImageView.setImage(null);
+        start.setVisible(false);
+        outliers.disarm();
+        minClusterSize.clear();
     }
 
     public void getColourAtMouse(javafx.scene.input.MouseEvent mouseEvent) {
         try {
             if (chosenImageView!=null) {
+                start.setVisible(false);
                 fruitColor = fruitImage.pr.getColor((int)mouseEvent.getX(), (int)mouseEvent.getY());
                 if (blackWhiteImageView.getImage() != null)
                     displayBlackWhiteImage();
@@ -141,8 +146,8 @@ public class Controller {
             fruitImage.resetEditableImage();
             clusterMap = new ClusterMap();
             clusterMap.createHashMap(blackWhiteImage.fruitArray);
-            if(clusterMap.map.size()>3)
-                clusterMap.removeOutliers();
+            if(outliers.isSelected())
+                clusterMap.removeOutliers(Integer.parseInt(minClusterSize.getText()));
             for(int i : clusterMap.map.keySet())
                 fruitImage.drawClusterBorder(i, clusterMap.map);
             chosenImageView.setImage(fruitImage.editableImage);

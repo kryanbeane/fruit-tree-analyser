@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -164,7 +165,14 @@
          </VBox>
       </left>
       <top>
-         <HBox prefHeight="115.0" prefWidth="574.0" BorderPane.alignment="CENTER" />
+         <HBox prefHeight="115.0" prefWidth="574.0" BorderPane.alignment="CENTER">
+            <children>
+               <Label fx:id="start" alignment="CENTER" contentDisplay="CENTER" prefHeight="43.0" prefWidth="574.0" text="CLICK ON A FRUIT TO START" visible="false">
+                  <font>
+                     <Font name="Calibri Bold" size="26.0" />
+                  </font>
+               </Label>
+            </children></HBox>
       </top>
       <right>
          <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
@@ -207,7 +215,7 @@
                            </VBox>
                         </children>
                      </HBox>
-                     <HBox fx:id="recogSettings" prefHeight="181.0" prefWidth="558.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" visible="false" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+                     <HBox fx:id="recogSettings" prefHeight="181.0" prefWidth="558.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
                         <children>
                            <VBox prefHeight="128.0" prefWidth="305.0">
                               <children>
@@ -254,12 +262,25 @@
                            </VBox>
                            <VBox prefHeight="128.0" prefWidth="300.0">
                               <children>
-                                 <RadioButton fx:id="radio" mnemonicParsing="false" onAction="#showOnScreenSizes" text="Show Cluster Orders" textFill="WHITE">
+                                 <RadioButton fx:id="outliers" mnemonicParsing="false" text="Remove Outliers" textFill="WHITE">
                                     <font>
                                        <Font name="Calibri Bold" size="14.0" />
                                     </font>
                                     <VBox.margin>
                                        <Insets left="64.0" top="24.0" />
+                                    </VBox.margin>
+                                 </RadioButton>
+                                 <TextField fx:id="minClusterSize" promptText="Minimum Cluster Size">
+                                    <VBox.margin>
+                                       <Insets left="64.0" right="64.0" top="16.0" />
+                                    </VBox.margin>
+                                 </TextField>
+                                 <RadioButton fx:id="radio" mnemonicParsing="false" onAction="#showOnScreenSizes" text="Show Cluster Orders" textFill="WHITE">
+                                    <font>
+                                       <Font name="Calibri Bold" size="14.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets left="64.0" top="16.0" />
                                     </VBox.margin>
                                  </RadioButton>
                               </children>

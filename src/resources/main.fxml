@@ -143,7 +143,7 @@
       <left>
          <VBox prefHeight="382.0" prefWidth="286.0" BorderPane.alignment="CENTER">
             <children>
-               <Label fx:id="yourImage" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="361.0" text="Your Image" textAlignment="CENTER" visible="false">
+               <Label fx:id="yourImage" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="361.0" text="Chosen Image" textAlignment="CENTER" visible="false">
                   <font>
                      <Font name="Calibri Bold" size="20.0" />
                   </font>
@@ -189,52 +189,117 @@
          </VBox>
       </right>
       <bottom>
-         <HBox prefHeight="173.0" prefWidth="574.0" BorderPane.alignment="CENTER">
+         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
             <children>
-               <VBox prefHeight="173.0" prefWidth="485.0">
+               <AnchorPane prefHeight="200.0" AnchorPane.bottomAnchor="5.0">
                   <children>
-                     <RadioButton fx:id="radio" mnemonicParsing="false" onAction="#showOnScreenSizes" text="Show Cluster Orders">
-                        <VBox.margin>
-                           <Insets left="32.0" top="24.0" />
-                        </VBox.margin>
-                     </RadioButton>
+                     <HBox fx:id="colorSettings" layoutX="10.0" layoutY="10.0" prefHeight="181.0" prefWidth="558.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" visible="false" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+                        <children>
+                           <VBox prefHeight="128.0" prefWidth="305.0">
+                              <HBox.margin>
+                                 <Insets right="2.0" />
+                              </HBox.margin>
+                           </VBox>
+                           <VBox prefHeight="128.0" prefWidth="300.0">
+                              <HBox.margin>
+                                 <Insets left="2.0" />
+                              </HBox.margin>
+                           </VBox>
+                        </children>
+                     </HBox>
+                     <HBox fx:id="recogSettings" prefHeight="181.0" prefWidth="558.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" visible="false" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+                        <children>
+                           <VBox prefHeight="128.0" prefWidth="305.0">
+                              <children>
+                                 <Label alignment="CENTER" prefHeight="17.0" prefWidth="295.0" text="Hue" textFill="WHITE">
+                                    <font>
+                                       <Font name="Calibri Bold" size="14.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets left="4.0" right="4.0" top="12.0" />
+                                    </VBox.margin>
+                                 </Label>
+                                 <Slider fx:id="hueSlider" blockIncrement="1.0E-4" max="1.0" onMouseDragged="#adjustHue">
+                                    <VBox.margin>
+                                       <Insets bottom="4.0" left="4.0" right="4.0" />
+                                    </VBox.margin>
+                                 </Slider>
+                                 <Label alignment="CENTER" prefHeight="17.0" prefWidth="295.0" text="Saturation" textFill="WHITE">
+                                    <font>
+                                       <Font name="Calibri Bold" size="14.0" />
+                                    </font>
+                                 </Label>
+                                 <Slider fx:id="saturationSlider" blockIncrement="1.0E-4" max="1.0" onMouseDragged="#adjustSaturation">
+                                    <VBox.margin>
+                                       <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+                                    </VBox.margin>
+                                 </Slider>
+                                 <Label alignment="CENTER" prefHeight="17.0" prefWidth="285.0" text="Brightness" textFill="WHITE">
+                                    <font>
+                                       <Font name="Calibri Bold" size="14.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets top="4.0" />
+                                    </VBox.margin>
+                                 </Label>
+                                 <Slider fx:id="brightnessSlider" blockIncrement="1.0E-4" max="1.0" onMouseDragged="#adjustBrightness">
+                                    <VBox.margin>
+                                       <Insets left="4.0" right="4.0" />
+                                    </VBox.margin>
+                                 </Slider>
+                              </children>
+                              <HBox.margin>
+                                 <Insets right="2.0" />
+                              </HBox.margin>
+                           </VBox>
+                           <VBox prefHeight="128.0" prefWidth="300.0">
+                              <children>
+                                 <RadioButton fx:id="radio" mnemonicParsing="false" onAction="#showOnScreenSizes" text="Show Cluster Orders" textFill="WHITE">
+                                    <font>
+                                       <Font name="Calibri Bold" size="14.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets left="64.0" top="24.0" />
+                                    </VBox.margin>
+                                 </RadioButton>
+                              </children>
+                              <HBox.margin>
+                                 <Insets left="2.0" />
+                              </HBox.margin>
+                           </VBox>
+                        </children>
+                     </HBox>
+                     <HBox fx:id="menu" prefHeight="31.0" prefWidth="558.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" stylesheets="@../buttonStyle.css" visible="false" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="156.0">
+                        <children>
+                           <Button contentDisplay="CENTER" graphicTextGap="1.0" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#minimizeMenu" prefHeight="42.0" prefWidth="63.0" style="-fx-background-radius: 8;" stylesheets="@../buttonStyle.css" text="-" textAlignment="JUSTIFY" textFill="WHITE">
+                              <font>
+                                 <Font name="Calibri Bold" size="19.0" />
+                              </font>
+                           </Button>
+                           <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#displayRecogMenu" prefHeight="42.0" prefWidth="229.0" style="-fx-background-radius: 8;" stylesheets="@../buttonStyle.css" text="Recognition Settings" textAlignment="JUSTIFY" textFill="WHITE">
+                              <font>
+                                 <Font name="Calibri Bold" size="15.0" />
+                              </font>
+                           </Button>
+                           <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#displayColorMenu" prefHeight="42.0" prefWidth="279.0" style="-fx-background-radius: 8;" stylesheets="@../buttonStyle.css" text="Cluster Color Settings" textAlignment="JUSTIFY" textFill="WHITE">
+                              <font>
+                                 <Font name="Calibri Bold" size="15.0" />
+                              </font>
+                           </Button>
+                        </children>
+                     </HBox>
                   </children>
-               </VBox>
-               <VBox prefHeight="173.0" prefWidth="470.0">
+               </AnchorPane>
+               <AnchorPane fx:id="noMenu" prefHeight="205.0" prefWidth="574.0">
                   <children>
-                     <Label alignment="CENTER" prefHeight="17.0" prefWidth="295.0" text="Hue">
-                        <VBox.margin>
-                           <Insets left="24.0" right="32.0" top="24.0" />
-                        </VBox.margin>
-                     </Label>
-                     <Slider fx:id="hueSlider" blockIncrement="1.0E-4" max="360.0">
-                        <VBox.margin>
-                           <Insets left="24.0" right="32.0" />
-                        </VBox.margin>
-                     </Slider>
-                     <Label alignment="CENTER" prefHeight="17.0" prefWidth="295.0" text="Saturation">
-                        <VBox.margin>
-                           <Insets left="24.0" right="32.0" top="8.0" />
-                        </VBox.margin>
-                     </Label>
-                     <Slider fx:id="saturationSlider" blockIncrement="1.0E-4" max="1.0" value="0.5">
-                        <VBox.margin>
-                           <Insets left="24.0" right="32.0" />
-                        </VBox.margin>
-                     </Slider>
-                     <Label alignment="CENTER" prefHeight="17.0" prefWidth="285.0" text="Brightness">
-                        <VBox.margin>
-                           <Insets left="24.0" right="32.0" top="8.0" />
-                        </VBox.margin>
-                     </Label>
-                     <Slider fx:id="brightnessSlider" blockIncrement="1.0E-4" max="1.0" value="0.5">
-                        <VBox.margin>
-                           <Insets left="24.0" right="32.0" />
-                        </VBox.margin>
-                     </Slider>
+                     <Button contentDisplay="CENTER" graphicTextGap="1.0" layoutX="8.0" layoutY="156.0" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" onAction="#displayMenu" prefHeight="41.0" prefWidth="44.0" style="-fx-background-radius: 24; -fx-background-color: #6200EE;" stylesheets="@../stylesheet2.css" text="+" textAlignment="JUSTIFY" textFill="WHITE" AnchorPane.bottomAnchor="7.0">
+                        <font>
+                           <Font name="Calibri Bold" size="24.0" />
+                        </font>
+                     </Button>
                   </children>
-               </VBox>
+               </AnchorPane>
             </children>
-         </HBox>
+         </AnchorPane>
       </bottom></BorderPane>
 </AnchorPane>

@@ -1,17 +1,16 @@
 package sample;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
+import javafx.scene.Node;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.text.*;
-import javafx.stage.Stage;
 import javafx.util.Duration;
-
-import javax.tools.Tool;
 import java.util.*;
 import java.io.*;
 
@@ -22,10 +21,13 @@ public class Controller {
     @FXML StackPane stack, sizePane;
     @FXML RadioButton radio;
     @FXML Button bwBut;
+    @FXML AnchorPane noMenu;
+    @FXML HBox menu, recogSettings, colorSettings;
     Color fruitColor;
     FruitImage fruitImage;
     BlackWhiteImage blackWhiteImage;
     ClusterMap clusterMap;
+    Boolean sizesAreShown = false;
 
     public void fileChooser() throws FileNotFoundException {
         try {
@@ -36,11 +38,20 @@ public class Controller {
             fruitImage = new FruitImage(new FileInputStream(file), (int)chosenImageView.getFitWidth(), (int)chosenImageView.getFitHeight());
             chosenImageView.setImage(fruitImage.originalImage);
             yourImage.setVisible(true);
-
+            createTooltip(bwBut, "Try clicking different areas of the" + "\n fruit to get better conversions!");
         } catch (NullPointerException ignored) {}
     }
 
+    public void createTooltip(Node placement, String text) {
+        Tooltip tooltip = new Tooltip();
+        tooltip.setText(text);
+        tooltip.setShowDelay(Duration.millis(0));
+        tooltip.setHideDelay(Duration.millis(0));
+        Tooltip.install(placement, tooltip);
+    }
+
     public void resetImageGUI() {
+        minimizeMenu();
         bwVersion.setVisible(false);
         yourImage.setVisible(false);
         chosenImageView.setImage(null);
@@ -66,17 +77,15 @@ public class Controller {
                     Tooltip tooltip = new Tooltip();
                     int rank = clusterMap.getClusterSizeRank(root);
                     tooltip.setText("Fruit/Cluster number: " + rank + "\n" + "Estimated size (pixel units): " + clusterMap.map.get(root).size());
-                    Tooltip.install(chosenImageView, tooltip);
+                    if(sizesAreShown)
+                        Tooltip.install(sizePane, tooltip);
+                    else Tooltip.install(chosenImageView, tooltip);
                 }
         } catch (Exception ignore) {}
     }
 
     public void displayBlackWhiteImage() {
         try {
-            Tooltip tooltip=new Tooltip();
-            tooltip.setText("Try clicking different areas of the fruit to get better conversions!");
-            tooltip.setShowDelay(Duration.millis(1));
-            Tooltip.install(bwBut, tooltip);
             initialiseBlackWhiteImage();
             blackWhiteImageView.setImage(blackWhiteImage.bwImage);
             bwVersion.setVisible(true);
@@ -104,16 +113,19 @@ public class Controller {
     }
 
     public void showOnScreenSizes() {
-        if(radio.isSelected())
+        if(radio.isSelected()) {
             sizePane.toFront();
-        else sizePane.toBack();
+            sizesAreShown=true;
+        } else {
+            sizePane.toBack();
+            sizesAreShown=false;
+        }
     }
 
     public void createSizePane() {
-        HashMap<Integer, Integer> a = clusterMap.createSizeHashMap();
-        for (int i : a.keySet()) {
+        for (int i : clusterMap.map.keySet()) {
             Font font = Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 10);
-            Label label = new Label(String.valueOf(i));
+            Label label = new Label(String.valueOf(clusterMap.getClusterSizeRank(i)));
             label.setTextFill(Color.WHITE);
             label.setFont(font);
             sizePane.getChildren().add(label);
@@ -133,7 +145,6 @@ public class Controller {
                 fruitImage.drawClusterBorder(i, clusterMap.map);
             chosenImageView.setImage(fruitImage.editableImage);
             createSizePane();
-            System.out.println("SIZE = " + clusterMap.map.keySet().size());
         }
         catch (Exception e) {
             Alert a=createAlert("", "");
@@ -145,4 +156,64 @@ public class Controller {
         }
     }
 
+    public void displayMenu() {
+        menu.setVisible(true);
+        noMenu.setVisible(false);
+    }
+
+    public void minimizeMenu() {
+        menu.setVisible(false);
+        noMenu.setVisible(true);
+        recogSettings.setVisible(false);
+        colorSettings.setVisible(false);
+    }
+
+    public void displayRecogMenu() {
+        recogSettings.setVisible(true);
+        colorSettings.setVisible(false);
+    }
+
+    public void displayColorMenu() {
+        recogSettings.setVisible(false);
+        colorSettings.setVisible(true);
+    }
+
+    public void adjustHue() {
+        try {
+            if(blackWhiteImageView!=null && chosenImageView.getImage()==fruitImage.editableImage) {
+                ColorAdjust colorAdjust = new ColorAdjust();
+                colorAdjust.setHue(hueSlider.getValue());
+                chosenImageView.setEffect(colorAdjust);
+                displayBlackWhiteImage();
+            }
+        } catch (Exception e) {
+            createAlert("Uh oh..", "Try converting an image first!");
+        }
+    }
+
+    public void adjustSaturation() {
+        try {
+            if(blackWhiteImageView!=null && chosenImageView.getImage()==fruitImage.editableImage) {
+                ColorAdjust colorAdjust = new ColorAdjust();
+                colorAdjust.setSaturation(saturationSlider.getValue());
+                chosenImageView.setEffect(colorAdjust);
+                displayBlackWhiteImage();
+            }
+        } catch (Exception e) {
+            createAlert("Uh oh..", "Try converting an image first!");
+        }
+    }
+
+    public void adjustBrightness() {
+        try {
+            if(blackWhiteImageView!=null && chosenImageView.getImage()==fruitImage.editableImage) {
+                ColorAdjust colorAdjust = new ColorAdjust();
+                colorAdjust.setBrightness(brightnessSlider.getValue());
+                chosenImageView.setEffect(colorAdjust);
+                displayBlackWhiteImage();
+            }
+        } catch (Exception e) {
+            createAlert("Uh oh..", "Try converting an image first!");
+        }
+    }
 }

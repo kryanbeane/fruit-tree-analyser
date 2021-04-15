@@ -192,7 +192,7 @@
                </Label>
                <StackPane prefHeight="250.0" prefWidth="250.0" style="-fx-background-radius: 8;">
                   <children>
-                     <ImageView fx:id="blackWhiteImageView" fitHeight="250.0" fitWidth="250.0" pickOnBounds="true" preserveRatio="true" />
+                     <ImageView fx:id="blackWhiteImageView" fitHeight="250.0" fitWidth="250.0" onMouseClicked="#colourIndividualCluster" pickOnBounds="true" preserveRatio="true" />
                   </children>
                   <VBox.margin>
                      <Insets bottom="12.0" left="24.0" right="12.0" top="12.0" />
@@ -206,7 +206,7 @@
             <children>
                <AnchorPane prefHeight="200.0" AnchorPane.bottomAnchor="5.0">
                   <children>
-                     <HBox fx:id="colorSettings" layoutX="291.0" layoutY="10.0" prefHeight="140.0" prefWidth="275.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="291.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+                     <HBox fx:id="colorSettings" layoutX="291.0" layoutY="80.0" prefHeight="68.0" prefWidth="275.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" visible="false" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="291.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="80.0">
                         <children>
                            <VBox>
                               <HBox.margin>

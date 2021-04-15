@@ -234,4 +234,17 @@ public class Controller {
             } else blackWhiteImageView.setImage(blackWhiteImage.coloredImage);
         else blackWhiteImageView.setImage(blackWhiteImage.bwImage);
     }
+
+    public void colourIndividualCluster(javafx.scene.input.MouseEvent event) {
+        try {
+            blackWhiteImage.coloredImage=blackWhiteImage.bwImage;
+            int x=(int)event.getX(), y=(int)event.getY();
+            Random rand = new Random();
+            float r = rand.nextFloat(), g = rand.nextFloat(), b = rand.nextFloat();
+            Color randomColor = new Color(r, g, b, 1);
+            clusterMap.randomlyColorCluster(blackWhiteImage.fruitArray.find(blackWhiteImage.fruitArray.array, blackWhiteImage.fruitArray.calculateArrayPosition(y,x)), fruitImage, blackWhiteImage.pw, randomColor);
+            blackWhiteImageView.setImage(blackWhiteImage.coloredImage);
+        } catch (Exception ignore) {}
+    }
+
 }

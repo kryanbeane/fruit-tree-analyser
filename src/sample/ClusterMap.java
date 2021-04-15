@@ -86,7 +86,6 @@ public class ClusterMap {
         HashMap<Integer, Integer> hm = createSizeHashMap();
         List<HashMap.Entry<Integer, Integer>> list = new LinkedList<>(hm.entrySet());
         list.sort(Map.Entry.comparingByValue());
-
         HashMap<Integer, Integer> sortedHashMap = new LinkedHashMap<>();
 
         for (HashMap.Entry<Integer, Integer> a : list) {

@@ -214,6 +214,7 @@ public class Controller {
             fruitImage.setEditableImage(fruitImage.wi);
             chosenImageView.setImage(fruitImage.editableImage);
             displayBlackWhiteImage();
+
         } catch (Exception e) {
             createAlert("Uh oh..", "Try converting an image first!");
         }
@@ -228,11 +229,15 @@ public class Controller {
     }
 
     public void showColoredFruits() {
-        if(colorRadio.isSelected())
-            if(blackWhiteImage.coloredImage==blackWhiteImage.bwImage) {
-                createAlert("Uh oh..", "Try fruit recognition first!");
-            } else blackWhiteImageView.setImage(blackWhiteImage.coloredImage);
-        else blackWhiteImageView.setImage(blackWhiteImage.bwImage);
+        if(chosenImageView.getImage()!=null && blackWhiteImageView.getImage()!=null) {
+            if (colorRadio.isSelected())
+                if (blackWhiteImage.coloredImage == blackWhiteImage.bwImage) {
+                    createAlert("Uh oh..", "Try fruit recognition first!");
+                } else blackWhiteImageView.setImage(blackWhiteImage.coloredImage);
+            else blackWhiteImageView.setImage(blackWhiteImage.bwImage);
+        } else {
+            createAlert("Uh oh..", "Try choosing and converting an image first!");
+        }
     }
 
     public void colourIndividualCluster(javafx.scene.input.MouseEvent event) {

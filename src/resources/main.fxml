@@ -220,7 +220,7 @@
                            </VBox>
                         </children>
                      </HBox>
-                     <HBox fx:id="recogSettings" prefHeight="181.0" prefWidth="558.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" visible="false" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+                     <HBox fx:id="recogSettings" prefHeight="181.0" prefWidth="558.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
                         <children>
                            <VBox prefHeight="128.0" prefWidth="305.0">
                               <children>
@@ -232,7 +232,7 @@
                                        <Insets left="4.0" right="4.0" top="12.0" />
                                     </VBox.margin>
                                  </Label>
-                                 <Slider fx:id="hueSlider" blockIncrement="1.0" max="360.0" onMouseDragged="#sliderAdjustments" value="360.0">
+                                 <Slider fx:id="hueSlider" blockIncrement="1.0" max="360.0" onMouseDragged="#sliderAdjustments">
                                     <VBox.margin>
                                        <Insets bottom="4.0" left="4.0" right="4.0" />
                                     </VBox.margin>
@@ -242,7 +242,7 @@
                                        <Font name="Calibri Bold" size="14.0" />
                                     </font>
                                  </Label>
-                                 <Slider fx:id="saturationSlider" blockIncrement="1.0E-4" max="1.0" onMouseDragged="#sliderAdjustments" value="1.0">
+                                 <Slider fx:id="saturationSlider" blockIncrement="1.0E-4" max="2.0" onMouseDragged="#sliderAdjustments" value="1.0">
                                     <VBox.margin>
                                        <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                                     </VBox.margin>
@@ -255,7 +255,7 @@
                                        <Insets top="4.0" />
                                     </VBox.margin>
                                  </Label>
-                                 <Slider fx:id="brightnessSlider" blockIncrement="1.0E-4" max="1.0" onMouseDragged="#sliderAdjustments" value="1.0">
+                                 <Slider fx:id="brightnessSlider" blockIncrement="1.0E-4" max="2.0" onMouseDragged="#sliderAdjustments" value="1.0">
                                     <VBox.margin>
                                        <Insets left="4.0" right="4.0" />
                                     </VBox.margin>

@@ -64,8 +64,8 @@ public class FruitImage {
             pw.setColor(leftX, y, Color.BLUE);
     }
 
-    public void setEditableImage(Image editableImage) {
-        this.editableImage = editableImage;
+    public void setEditableImage(Image newImage) {
+        this.editableImage = newImage;
     }
 
     public void resetEditableImage() {

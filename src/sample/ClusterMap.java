@@ -30,7 +30,7 @@ public class ClusterMap {
         return a.find(a.array, i) == root;
     }
 
-    public void removeOutliers(int min) {
+    public void removeOutliers(int min, boolean doIQR) {
         int IQR = calcIQR(createSortedSizeArray(), createSortedSizeArray().size());
         Set<Map.Entry<Integer, ArrayList<Integer>>> setOfEntries = map.entrySet();
         Iterator<Map.Entry<Integer, ArrayList<Integer>>> iterator = setOfEntries.iterator();
@@ -38,8 +38,11 @@ public class ClusterMap {
         while (iterator.hasNext()) {
             Map.Entry<Integer, ArrayList<Integer>> entry = iterator.next();
             int size = entry.getValue().size();
-            if(size < IQR && size > min)
+            if (size<IQR && doIQR) {
                 iterator.remove();
+            } else if (size < min) {
+                iterator.remove();
+            }
         }
     }
 

@@ -146,16 +146,24 @@ public class Controller {
             fruitImage.resetEditableImage();
             clusterMap = new ClusterMap();
             clusterMap.createHashMap(blackWhiteImage.fruitArray);
-            if(outliers.isSelected())
-                clusterMap.removeOutliers(Integer.parseInt(minClusterSize.getText()));
+
+            if(outliers.isSelected() && !minClusterSize.getText().equals(""))
+                clusterMap.removeOutliers(Integer.parseInt(minClusterSize.getText()), true);
+            else if(outliers.isSelected())
+                clusterMap.removeOutliers(2, true);
+            else if(!minClusterSize.getText().equals(""))
+                clusterMap.removeOutliers(Integer.parseInt(minClusterSize.getText()), false);
+
+
             for(int i : clusterMap.map.keySet())
                 fruitImage.drawClusterBorder(i, clusterMap.map);
+            fruitImage.setEditableImage(fruitImage.wi);
             chosenImageView.setImage(fruitImage.editableImage);
             createSizePane();
-            totalFruits.setText(String.valueOf(clusterMap.totalFruits()));
+            totalFruits.setText(clusterMap.totalFruits() + " Fruits/Clusters");
         }
         catch (Exception e) {
-            Alert a=createAlert("", "");
+            Alert a=createAlert("Uh oh..", "Something went wrong!");
             if(chosenImageView.getImage()==null)
                 a=createAlert("Uh oh..", "Choose an image first!");
             else if(blackWhiteImage == null)

@@ -1,5 +1,8 @@
 package sample;
+import javafx.scene.image.*;
+import javafx.scene.paint.Color;
 import java.util.*;
+import java.util.List;
 
 public class ClusterMap {
     HashMap<Integer, ArrayList<Integer>> map;
@@ -104,5 +107,25 @@ public class ClusterMap {
 
     public int totalFruits() {
         return map.keySet().size();
+    }
+
+    public void randomlyColorCluster(int root, FruitImage fruitImage, PixelWriter pw, Color color) {
+        ArrayList<Integer> tempArray = map.get(root);
+        for(int i : tempArray) {
+            pw.setColor(fruitImage.calcXFromIndex(i), fruitImage.calcYFromIndex(i), color);
+        }
+    }
+
+    public void colorAllClusters(BlackWhiteImage blackWhiteImage, FruitImage fruitImage) {
+        PixelReader pixelReader = blackWhiteImage.coloredImage.getPixelReader();
+        WritableImage writableImage = new WritableImage(pixelReader, (int)blackWhiteImage.coloredImage.getWidth(), (int)blackWhiteImage.coloredImage.getHeight());
+        PixelWriter pixelWriter = writableImage.getPixelWriter();
+        for(int i : map.keySet()) {
+            Random rand = new Random();
+            float r = rand.nextFloat(), g = rand.nextFloat(), b = rand.nextFloat();
+            Color randomColor = new Color(r, g, b, 1);
+            randomlyColorCluster(i, fruitImage, pixelWriter, randomColor);
+        }
+        blackWhiteImage.coloredImage = writableImage;
     }
 }

@@ -3,7 +3,7 @@ import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 
 public class BlackWhiteImage {
-    Image bwImage;
+    Image bwImage, coloredImage;
     PixelReader pr; PixelWriter pw; WritableImage wi;
     double hueDifference, saturationDifference, brightnessDifference;
     FruitArray fruitArray;
@@ -18,6 +18,7 @@ public class BlackWhiteImage {
         this.brightnessDifference = 0.3;
         this.fruitArray = new FruitArray(width, height);
         this.bwImage = createBlackWhiteImage(fruitColor);
+        this.coloredImage = bwImage;
     }
 
     public Image createBlackWhiteImage(Color fruitColor) {
@@ -31,6 +32,7 @@ public class BlackWhiteImage {
                     moreBlueFruitRecog(fruitColor, pixelColor, x, y);
             }
         fruitArray.unionFruitPixels();
+        coloredImage = bwImage;
         return wi;
     }
 

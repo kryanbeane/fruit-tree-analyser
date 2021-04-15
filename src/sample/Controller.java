@@ -20,7 +20,7 @@ public class Controller {
     @FXML Slider hueSlider, saturationSlider, brightnessSlider;
     @FXML Label yourImage, bwVersion, start;
     @FXML StackPane stack, sizePane;
-    @FXML RadioButton radio, outliers;
+    @FXML RadioButton radio, outliers, colorRadio;
     @FXML Button bwBut;
     @FXML AnchorPane noMenu;
     @FXML HBox menu, recogSettings, colorSettings;
@@ -62,6 +62,9 @@ public class Controller {
         start.setVisible(false);
         outliers.disarm();
         minClusterSize.clear();
+        hueSlider.setValue(0);
+        saturationSlider.setValue(1);
+        brightnessSlider.setValue(1);
     }
 
     public void getColourAtMouse(javafx.scene.input.MouseEvent mouseEvent) {
@@ -93,15 +96,20 @@ public class Controller {
 
     public void displayBlackWhiteImage() {
         try {
+
             initialiseBlackWhiteImage();
             blackWhiteImageView.setImage(blackWhiteImage.bwImage);
             bwVersion.setVisible(true);
+            colorRadio.setSelected(false);
+            sizePane.getChildren().removeAll();
+            fruitImage.setBorderedImage(fruitImage.editableImage);
+            chosenImageView.setImage(fruitImage.borderedImage);
         }
         catch (Exception e) {
             Alert error;
             if (fruitImage==null) error = createAlert("Uh oh..", "Choose an image first!");
             else if (fruitColor==null) error =createAlert("Uh oh..", "Click a fruit first!");
-            else error = createAlert("Uh oh..", e.getCause().toString());
+            else error = createAlert("Uh oh..", e.toString());
             error.show();
         }
     }
@@ -159,9 +167,9 @@ public class Controller {
 
             for(int i : clusterMap.map.keySet())
                 fruitImage.drawClusterBorder(i, clusterMap.map);
-            fruitImage.setEditableImage(fruitImage.wi);
-            chosenImageView.setImage(fruitImage.editableImage);
+            chosenImageView.setImage(fruitImage.borderedImage);
             createSizePane();
+            colorFruits();
             totalFruits.setText(clusterMap.totalFruits() + " Fruits/Clusters");
         }
         catch (Exception e) {
@@ -196,22 +204,13 @@ public class Controller {
         colorSettings.setVisible(true);
     }
 
-    public void editImagePixels(ColorAdjust colorAdjust) {
-        for(int y=0; y<fruitImage.width; y++)
-            for(int x=0; x<fruitImage.width; x++) {
-                Color c = fruitImage.pr.getColor(x, y);
-                c = c.deriveColor(colorAdjust.getHue(), colorAdjust.getSaturation(), colorAdjust.getBrightness(), 1);
-                fruitImage.pw.setColor(x, y, c);
-            }
-    }
-
     public void sliderAdjustments() {
         try {
             ColorAdjust colorAdjust = new ColorAdjust();
             colorAdjust.setHue(hueSlider.getValue());
             colorAdjust.setSaturation(saturationSlider.getValue());
             colorAdjust.setBrightness(brightnessSlider.getValue());
-            editImagePixels(colorAdjust);
+            fruitImage.editImagePixels(colorAdjust);
             fruitImage.setEditableImage(fruitImage.wi);
             chosenImageView.setImage(fruitImage.editableImage);
             displayBlackWhiteImage();
@@ -220,5 +219,19 @@ public class Controller {
         }
     }
 
+    public void colorFruits() {
+        try{
+            clusterMap.colorAllClusters(blackWhiteImage, fruitImage);
+        } catch (Exception e) {
+            createAlert("Uh oh..", "Perform fruit recognition first!");
+        }
+    }
 
+    public void showColoredFruits() {
+        if(colorRadio.isSelected())
+            if(blackWhiteImage.coloredImage==blackWhiteImage.bwImage) {
+                createAlert("Uh oh..", "Try fruit recognition first!");
+            } else blackWhiteImageView.setImage(blackWhiteImage.coloredImage);
+        else blackWhiteImageView.setImage(blackWhiteImage.bwImage);
+    }
 }

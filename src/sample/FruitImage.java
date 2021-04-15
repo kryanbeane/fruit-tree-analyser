@@ -1,4 +1,5 @@
 package sample;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.*;
 import javafx.scene.paint.Color;
 
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class FruitImage {
-    Image originalImage, editableImage;
+    Image originalImage, editableImage, borderedImage;
     int width, height;
     PixelReader pr; PixelWriter pw; WritableImage wi;
 
@@ -20,6 +21,7 @@ public class FruitImage {
         this.pr = editableImage.getPixelReader();
         this.wi = new WritableImage(pr, width, height);
         this.pw = wi.getPixelWriter();
+        this.borderedImage = editableImage;
     }
 
     public void drawClusterBorder(int root, HashMap<Integer, ArrayList<Integer>> map) {
@@ -34,7 +36,7 @@ public class FruitImage {
                 topY = calcYFromIndex(root),
                 botY = calcYFromIndex(bottomPixel);
         drawBorder(leftX, rightX, topY, botY);
-        editableImage=wi;
+        borderedImage=wi;
     }
 
     public int calcFurtherLeftPixel(int posA, int posB) {
@@ -73,6 +75,19 @@ public class FruitImage {
         pr = editableImage.getPixelReader();
         wi = new WritableImage(pr, width, height);
         pw = wi.getPixelWriter();
+    }
+
+    public void setBorderedImage(Image newImg) {
+        this.borderedImage = newImg;
+    }
+
+    public void editImagePixels(ColorAdjust colorAdjust) {
+        for(int y=0; y<width; y++)
+            for(int x=0; x<width; x++) {
+                Color c = pr.getColor(x, y);
+                c = c.deriveColor(colorAdjust.getHue(), colorAdjust.getSaturation(), colorAdjust.getBrightness(), 1);
+                pw.setColor(x, y, c);
+            }
     }
 
 

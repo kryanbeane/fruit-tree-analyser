@@ -206,17 +206,22 @@
             <children>
                <AnchorPane prefHeight="200.0" AnchorPane.bottomAnchor="5.0">
                   <children>
-                     <HBox fx:id="colorSettings" layoutX="10.0" layoutY="10.0" prefHeight="181.0" prefWidth="558.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" visible="false" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+                     <HBox fx:id="colorSettings" layoutX="291.0" layoutY="10.0" prefHeight="140.0" prefWidth="275.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="291.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
                         <children>
-                           <VBox prefHeight="128.0" prefWidth="305.0">
-                              <HBox.margin>
-                                 <Insets right="2.0" />
-                              </HBox.margin>
-                           </VBox>
-                           <VBox prefHeight="128.0" prefWidth="300.0">
+                           <VBox>
                               <HBox.margin>
                                  <Insets left="2.0" />
                               </HBox.margin>
+                              <children>
+                                 <RadioButton fx:id="colorRadio" contentDisplay="CENTER" mnemonicParsing="false" onAction="#showColoredFruits" prefHeight="19.0" prefWidth="285.0" text="Show Randomly Colored Clusters" textAlignment="CENTER" textFill="WHITE">
+                                    <font>
+                                       <Font name="Calibri Bold" size="14.0" />
+                                    </font>
+                                    <VBox.margin>
+                                       <Insets left="24.0" top="24.0" />
+                                    </VBox.margin>
+                                 </RadioButton>
+                              </children>
                            </VBox>
                         </children>
                      </HBox>

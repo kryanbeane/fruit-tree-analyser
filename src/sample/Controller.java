@@ -29,7 +29,7 @@ public class Controller {
     FruitImage fruitImage;
     BlackWhiteImage blackWhiteImage;
     ClusterMap clusterMap;
-    Boolean sizesAreShown=false;
+    Boolean sizesAreShown = false;
 
     public void fileChooser() throws FileNotFoundException {
         try {
@@ -68,7 +68,7 @@ public class Controller {
         try {
             if (chosenImageView!=null) {
                 start.setVisible(false);
-                fruitColor = fruitImage.pr.getColor((int)mouseEvent.getX(), (int)mouseEvent.getY());
+                fruitColor = chosenImageView.getImage().getPixelReader().getColor((int)mouseEvent.getX(), (int)mouseEvent.getY());
                 if (blackWhiteImageView.getImage() != null)
                     displayBlackWhiteImage();
             }
@@ -130,6 +130,9 @@ public class Controller {
     }
 
     public void createSizePane() {
+        sizePane=new StackPane();
+        stack.getChildren().add(sizePane);
+        sizePane.toBack();
         for (int i : clusterMap.map.keySet()) {
             Font font = Font.font("Calibri", FontWeight.BOLD, FontPosture.REGULAR, 10);
             Label label = new Label(String.valueOf(clusterMap.getClusterSizeRank(i)));
@@ -153,7 +156,6 @@ public class Controller {
                 clusterMap.removeOutliers(2, true);
             else if(!minClusterSize.getText().equals(""))
                 clusterMap.removeOutliers(Integer.parseInt(minClusterSize.getText()), false);
-
 
             for(int i : clusterMap.map.keySet())
                 fruitImage.drawClusterBorder(i, clusterMap.map);
@@ -217,5 +219,6 @@ public class Controller {
             createAlert("Uh oh..", "Try converting an image first!");
         }
     }
+
 
 }

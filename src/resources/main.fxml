@@ -140,7 +140,7 @@
          </Button>
          <TextField fx:id="totalFruits" alignment="CENTER" editable="false" promptText="Total Fruits / Clusters">
             <VBox.margin>
-               <Insets bottom="4.0" left="64.0" right="64.0" top="250.0" />
+               <Insets bottom="8.0" left="64.0" right="64.0" top="250.0" />
             </VBox.margin>
          </TextField>
         </children>
@@ -220,7 +220,7 @@
                            </VBox>
                         </children>
                      </HBox>
-                     <HBox fx:id="recogSettings" prefHeight="181.0" prefWidth="558.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
+                     <HBox fx:id="recogSettings" prefHeight="181.0" prefWidth="558.0" style="-fx-background-radius: 8; -fx-background-color: #6200EE;" visible="false" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="8.0">
                         <children>
                            <VBox prefHeight="128.0" prefWidth="305.0">
                               <children>

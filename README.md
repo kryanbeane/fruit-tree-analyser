@@ -13,3 +13,6 @@ Implemented the union-find algorithm, sorting, a hash map for storing individual
  - Bryan Keane
 📧 bryankeane0@gmail.com
 
+
+Inspiration, code snippets, etc.
+* [Udemy Course](https://www.udemy.com/course/go-the-complete-developers-guide/)
